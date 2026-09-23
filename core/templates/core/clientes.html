@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Clientes | FitnessApp</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #1f2937;
+        }
+
+        .navbar {
+            background: #111827;
+            color: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #22c55e;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .admin-label {
+            color: #d1d5db;
+            font-size: 14px;
+        }
+
+        .back {
+            color: white;
+            text-decoration: none;
+            background: #374151;
+            padding: 9px 16px;
+            border-radius: 7px;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 25px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #6b7280;
+        }
+
+        .add-button {
+            background: #22c55e;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .add-button:hover {
+            background: #16a34a;
+        }
+
+        .clients-box {
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+        }
+
+        .client {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 22px 25px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .client:last-child {
+            border-bottom: none;
+        }
+
+        .client-info {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: #111827;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .client-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .client-email {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .client-phone {
+            color: #6b7280;
+            font-size: 13px;
+            margin-top: 3px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .button {
+            text-decoration: none;
+            padding: 9px 15px;
+            border-radius: 7px;
+            font-size: 14px;
+        }
+
+        .view {
+            background: #111827;
+            color: white;
+        }
+
+        .view:hover {
+            background: #22c55e;
+        }
+
+        .edit {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+        .edit:hover {
+            background: #d1d5db;
+        }
+
+        .empty {
+            padding: 50px;
+            text-align: center;
+            color: #6b7280;
+        }
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .admin-label {
+                display: none;
+            }
+
+            .container {
+                padding: 25px 15px;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+
+            .client {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 18px;
+            }
+
+            .actions {
+                width: 100%;
+            }
+
+            .button {
+                flex: 1;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Fitness<span>App</span>
+        </div>
+
+        <div class="navbar-right">
+
+            <div class="admin-label">
+                Administrador / Entrenador
+            </div>
+
+            <a href="/dashboard/" class="back">
+                Dashboard
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <main class="container">
+
+        <div class="header">
+
+            <div>
+
+                <h1>Clientes</h1>
+
+                <p>
+                    Administra los clientes registrados en FitnessApp.
+                </p>
+
+            </div>
+
+            <a
+                href="/clientes/agregar/"
+                class="add-button"
+            >
+                + Agregar cliente
+            </a>
+
+        </div>
+
+
+        <section class="clients-box">
+
+            {% if clientes %}
+
+                {% for cliente in clientes %}
+
+                    <div class="client">
+
+                        <div class="client-info">
+
+                            <div class="avatar">
+                                {{ cliente.nombre|first|upper }}
+                            </div>
+
+                            <div>
+
+                                <div class="client-name">
+                                    {{ cliente.nombre }}
+                                </div>
+
+                                <div class="client-email">
+                                    {{ cliente.correo }}
+                                </div>
+
+                                {% if cliente.telefono %}
+
+                                    <div class="client-phone">
+                                        📞 {{ cliente.telefono }}
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="actions">
+
+                            <!-- BOTÓN VER -->
+
+                            <a
+                                href="/clientes/{{ cliente.id }}/"
+                                class="button view"
+                            >
+                                Ver
+                            </a>
+
+
+                            <!-- BOTÓN EDITAR -->
+
+                            <a
+                                href="/admin/core/cliente/{{ cliente.id }}/change/"
+                                class="button edit"
+                            >
+                                Editar
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="empty">
+
+                    <h3>No hay clientes registrados</h3>
+
+                    <p>
+                        Todavía no existen clientes en FitnessApp.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+    </main>
+
+</body>
+</html>

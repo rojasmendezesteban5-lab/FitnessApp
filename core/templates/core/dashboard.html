@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | FitnessApp</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #1f2937;
+        }
+
+        /* MENÚ */
+
+        .navbar {
+            background: #111827;
+            color: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #22c55e;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .admin-label {
+            font-size: 14px;
+            color: #d1d5db;
+        }
+
+        .logout {
+            color: white;
+            text-decoration: none;
+            background: #dc2626;
+            padding: 9px 16px;
+            border-radius: 7px;
+            font-size: 14px;
+        }
+
+        .logout:hover {
+            background: #b91c1c;
+        }
+
+        /* CONTENIDO */
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 25px;
+        }
+
+        .welcome {
+            margin-bottom: 30px;
+        }
+
+        .welcome h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #6b7280;
+            font-size: 16px;
+        }
+
+        /* TARJETAS */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        }
+
+        .card-title {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .card-number {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .card-icon {
+            font-size: 30px;
+            margin-bottom: 15px;
+        }
+
+        /* ACCESOS */
+
+        .section-title {
+            font-size: 23px;
+            margin-bottom: 20px;
+        }
+
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .action {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            text-decoration: none;
+            color: #111827;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            transition: 0.2s;
+        }
+
+        .action:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .action h3 {
+            margin-bottom: 8px;
+        }
+
+        .action p {
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* CLIENTES */
+
+        .clients-box {
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        }
+
+        .client {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .client:last-child {
+            border-bottom: none;
+        }
+
+        .client-name {
+            font-weight: bold;
+        }
+
+        .client-email {
+            color: #6b7280;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .view-button {
+            background: #111827;
+            color: white;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 7px;
+            font-size: 13px;
+        }
+
+        .view-button:hover {
+            background: #22c55e;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 900px) {
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .actions {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .navbar-right {
+                gap: 10px;
+            }
+
+            .admin-label {
+                display: none;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .welcome h1 {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- MENÚ -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Fitness<span>App</span>
+        </div>
+
+        <div class="navbar-right">
+
+            <div class="admin-label">
+                Administrador / Entrenador
+            </div>
+
+            <a href="/login/" class="logout">
+                Salir
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- CONTENIDO -->
+
+    <main class="container">
+
+        <section class="welcome">
+
+            <h1>Panel de administración</h1>
+
+            <p>
+                Gestiona clientes, ejercicios, rutinas y progreso desde un solo lugar.
+            </p>
+
+        </section>
+
+
+        <!-- ESTADÍSTICAS -->
+
+        <section class="cards">
+
+            <div class="card">
+
+                <div class="card-icon">
+                    👥
+                </div>
+
+                <div class="card-title">
+                    Clientes
+                </div>
+
+                <div class="card-number">
+                    {{ total_clientes }}
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    💪
+                </div>
+
+                <div class="card-title">
+                    Ejercicios
+                </div>
+
+                <div class="card-number">
+                    {{ total_ejercicios }}
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    🏋️
+                </div>
+
+                <div class="card-title">
+                    Rutinas
+                </div>
+
+                <div class="card-number">
+                    {{ total_rutinas }}
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    📈
+                </div>
+
+                <div class="card-title">
+                    Registros de progreso
+                </div>
+
+                <div class="card-number">
+                    {{ total_progresos }}
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ACCESOS RÁPIDOS -->
+
+        <h2 class="section-title">
+            Accesos rápidos
+        </h2>
+
+
+        <section class="actions">
+
+            <a href="/admin/core/cliente/" class="action">
+
+                <div class="action-icon">
+                    👥
+                </div>
+
+                <h3>Clientes</h3>
+
+                <p>
+                    Agregar, editar y administrar los clientes de FitnessApp.
+                </p>
+
+            </a>
+
+
+            <a href="/admin/core/ejercicio/" class="action">
+
+                <div class="action-icon">
+                    💪
+                </div>
+
+                <h3>Ejercicios</h3>
+
+                <p>
+                    Crear y administrar los ejercicios disponibles.
+                </p>
+
+            </a>
+
+
+            <a href="/admin/core/rutina/" class="action">
+
+                <div class="action-icon">
+                    🏋️
+                </div>
+
+                <h3>Rutinas</h3>
+
+                <p>
+                    Crear rutinas y asignarlas a los clientes.
+                </p>
+
+            </a>
+
+        </section>
+
+
+        <!-- CLIENTES -->
+
+        <h2 class="section-title">
+            Clientes registrados
+        </h2>
+
+
+        <section class="clients-box">
+
+            {% if clientes %}
+
+                {% for cliente in clientes %}
+
+                    <div class="client">
+
+                        <div>
+
+                            <div class="client-name">
+                                {{ cliente.nombre }}
+                            </div>
+
+                            <div class="client-email">
+                                {{ cliente.correo }}
+                            </div>
+
+                        </div>
+
+                        <a
+                            href="/admin/core/cliente/{{ cliente.id }}/change/"
+                            class="view-button"
+                        >
+                            Administrar
+                        </a>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p>
+                    No hay clientes registrados todavía.
+                </p>
+
+            {% endif %}
+
+        </section>
+
+    </main>
+
+</body>
+</html>

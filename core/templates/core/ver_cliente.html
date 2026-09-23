@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ cliente.nombre }} | FitnessApp</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #1f2937;
+        }
+
+        .navbar {
+            background: #111827;
+            color: white;
+            padding: 18px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            background: #374151;
+            padding: 9px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .client-header {
+            background: white;
+            border-radius: 14px;
+            padding: 28px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .avatar {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            background: #2563eb;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .client-header h1 {
+            margin: 0 0 6px;
+        }
+
+        .client-header p {
+            margin: 0;
+            color: #6b7280;
+        }
+
+        .card {
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .info {
+            background: #f9fafb;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .info-label {
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .notes {
+            background: #f9fafb;
+            padding: 15px;
+            border-radius: 10px;
+            line-height: 1.6;
+        }
+
+        .routine {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 18px;
+        }
+
+        .routine-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .routine-header h3 {
+            margin: 0 0 6px;
+        }
+
+        .routine-description {
+            color: #6b7280;
+            margin-bottom: 15px;
+        }
+
+        .status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .active {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .inactive {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .routine-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .btn-green {
+            background: #16a34a;
+            color: white;
+        }
+
+        .btn-blue {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-gray {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 25px;
+            color: #6b7280;
+        }
+
+        .progress-item {
+            border-bottom: 1px solid #e5e7eb;
+            padding: 14px 0;
+        }
+
+        .progress-item:last-child {
+            border-bottom: none;
+        }
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .client-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .routine-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .container {
+                margin-top: 25px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+
+        <div class="logo">
+            FitnessApp
+        </div>
+
+        <div class="navbar-right">
+
+            <a href="/clientes/">
+                ← Clientes
+            </a>
+
+            <a href="/dashboard/">
+                Dashboard
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="container">
+
+
+        <!-- ENCABEZADO DEL CLIENTE -->
+
+        <div class="client-header">
+
+            <div class="avatar">
+                {{ cliente.nombre|first|upper }}
+            </div>
+
+            <div>
+
+                <h1>
+                    {{ cliente.nombre }}
+                </h1>
+
+                <p>
+                    {{ cliente.correo }}
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- INFORMACIÓN PERSONAL -->
+
+        <div class="card">
+
+            <h2>
+                👤 Información personal
+            </h2>
+
+            <div class="info-grid">
+
+                <div class="info">
+
+                    <div class="info-label">
+                        Correo
+                    </div>
+
+                    <div class="info-value">
+                        {{ cliente.correo }}
+                    </div>
+
+                </div>
+
+
+                <div class="info">
+
+                    <div class="info-label">
+                        Teléfono
+                    </div>
+
+                    <div class="info-value">
+
+                        {% if cliente.telefono %}
+                            {{ cliente.telefono }}
+                        {% else %}
+                            No registrado
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <div class="info">
+
+                    <div class="info-label">
+                        Edad
+                    </div>
+
+                    <div class="info-value">
+
+                        {% if cliente.edad %}
+                            {{ cliente.edad }} años
+                        {% else %}
+                            No registrada
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <div class="info">
+
+                    <div class="info-label">
+                        Peso
+                    </div>
+
+                    <div class="info-value">
+
+                        {% if cliente.peso %}
+                            {{ cliente.peso }} kg
+                        {% else %}
+                            No registrado
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <div class="info">
+
+                    <div class="info-label">
+                        Altura
+                    </div>
+
+                    <div class="info-value">
+
+                        {% if cliente.altura %}
+                            {{ cliente.altura }} m
+                        {% else %}
+                            No registrada
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <div class="info">
+
+                    <div class="info-label">
+                        Objetivo
+                    </div>
+
+                    <div class="info-value">
+
+                        {% if cliente.objetivo %}
+                            {{ cliente.objetivo }}
+                        {% else %}
+                            No registrado
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- NOTAS -->
+
+        <div class="card">
+
+            <h2>
+                📝 Notas
+            </h2>
+
+            <div class="notes">
+
+                {% if cliente.notas %}
+
+                    {{ cliente.notas }}
+
+                {% else %}
+
+                    No hay notas registradas.
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- RUTINAS -->
+
+        <div class="card">
+
+            <h2>
+                🏋️ Rutinas
+            </h2>
+
+
+            {% if rutinas %}
+
+
+                {% for rutina in rutinas %}
+
+                    <div class="routine">
+
+                        <div class="routine-header">
+
+                            <div>
+
+                                <h3>
+                                    {{ rutina.nombre }}
+                                </h3>
+
+                                {% if rutina.descripcion %}
+
+                                    <div class="routine-description">
+                                        {{ rutina.descripcion }}
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            {% if rutina.activa %}
+
+                                <span class="status active">
+                                    ACTIVA
+                                </span>
+
+                            {% else %}
+
+                                <span class="status inactive">
+                                    INACTIVA
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        {% if rutina.fecha_inicio %}
+
+                            <p>
+                                <strong>Fecha de inicio:</strong>
+                                {{ rutina.fecha_inicio|date:"d/m/Y" }}
+                            </p>
+
+                        {% endif %}
+
+
+                        <!-- EJERCICIOS DE LA RUTINA -->
+
+                        {% if rutina.ejercicios_rutina.all %}
+
+                            <div style="margin-top: 15px;">
+
+                                <strong>
+                                    Ejercicios:
+                                </strong>
+
+                                {% for item in rutina.ejercicios_rutina.all %}
+
+                                    <div style="
+                                        background:#f9fafb;
+                                        padding:10px;
+                                        border-radius:8px;
+                                        margin-top:8px;
+                                    ">
+
+                                        {{ item.orden }}.
+                                        {{ item.ejercicio.nombre }}
+
+                                        —
+                                        {{ item.series }} series ×
+                                        {{ item.repeticiones }} repeticiones
+
+                                        {% if item.peso %}
+                                            —
+                                            {{ item.peso }} kg
+                                        {% endif %}
+
+                                    </div>
+
+                                {% empty %}
+
+                                    <p style="color:#6b7280;">
+                                        Esta rutina todavía no tiene ejercicios.
+                                    </p>
+
+                                {% endfor %}
+
+                            </div>
+
+                        {% endif %}
+
+
+                        <!-- BOTONES -->
+
+                        <div class="routine-actions">
+
+                            <a
+                                href="/rutinas/{{ rutina.id }}/ejercicio/agregar/"
+                                class="btn btn-green"
+                            >
+                                + Agregar ejercicio
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+
+            {% else %}
+
+                <div class="empty">
+
+                    Este cliente todavía no tiene rutinas.
+
+                </div>
+
+            {% endif %}
+
+
+            <div style="margin-top:20px;">
+
+                <a
+                    href="/clientes/{{ cliente.id }}/rutina/agregar/"
+                    class="btn btn-blue"
+                >
+                    + Crear nueva rutina
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- PROGRESO -->
+
+        <div class="card">
+
+            <h2>
+                📈 Progreso
+            </h2>
+
+
+            {% if progresos %}
+
+                {% for progreso in progresos %}
+
+                    <div class="progress-item">
+
+                        <strong>
+                            {{ progreso.fecha|date:"d/m/Y" }}
+                        </strong>
+
+                        {% if progreso.peso %}
+                            · Peso: {{ progreso.peso }} kg
+                        {% endif %}
+
+                        {% if progreso.repeticiones %}
+                            · Repeticiones: {{ progreso.repeticiones }}
+                        {% endif %}
+
+                        {% if progreso.peso_ejercicio %}
+                            · Peso ejercicio: {{ progreso.peso_ejercicio }} kg
+                        {% endif %}
+
+                        {% if progreso.notas %}
+
+                            <div style="color:#6b7280; margin-top:5px;">
+                                {{ progreso.notas }}
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="empty">
+
+                    Este cliente todavía no tiene registros de progreso.
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+    </div>
+
+</body>
+</html>

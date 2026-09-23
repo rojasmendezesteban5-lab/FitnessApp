@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Agregar rutina | FitnessApp</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #1f2937;
+        }
+
+        .navbar {
+            background: #111827;
+            color: white;
+            padding: 18px 40px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #22c55e;
+        }
+
+        .back {
+            color: white;
+            text-decoration: none;
+
+            background: #374151;
+
+            padding: 9px 16px;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+
+            padding: 40px 25px;
+        }
+
+        .card {
+            background: white;
+
+            border-radius: 15px;
+
+            padding: 35px;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0, 0, 0, 0.06);
+        }
+
+        .title {
+            margin-bottom: 30px;
+        }
+
+        .title h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .title p {
+            color: #6b7280;
+        }
+
+        .client-box {
+            background: #ecfdf5;
+
+            border-left: 4px solid #22c55e;
+
+            padding: 15px;
+
+            border-radius: 8px;
+
+            margin-bottom: 25px;
+        }
+
+        .client-box strong {
+            display: block;
+
+            margin-bottom: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+
+            font-weight: bold;
+
+            margin-bottom: 8px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+
+            padding: 12px 14px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 8px;
+
+            font-size: 15px;
+
+            font-family: inherit;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+
+            border-color: #22c55e;
+        }
+
+        textarea {
+            min-height: 120px;
+
+            resize: vertical;
+        }
+
+        .buttons {
+            display: flex;
+
+            gap: 12px;
+
+            margin-top: 30px;
+        }
+
+        .button {
+            text-decoration: none;
+
+            border: none;
+
+            padding: 12px 20px;
+
+            border-radius: 8px;
+
+            font-size: 15px;
+
+            cursor: pointer;
+        }
+
+        .cancel {
+            background: #e5e7eb;
+
+            color: #111827;
+        }
+
+        .save {
+            background: #22c55e;
+
+            color: white;
+
+            font-weight: bold;
+        }
+
+        .save:hover {
+            background: #16a34a;
+        }
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .container {
+                padding: 25px 15px;
+            }
+
+            .card {
+                padding: 25px 20px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .button {
+                text-align: center;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Fitness<span>App</span>
+        </div>
+
+        <a
+            href="/clientes/{{ cliente.id }}/"
+            class="back"
+        >
+            ← Volver al cliente
+        </a>
+
+    </nav>
+
+
+    <main class="container">
+
+
+        <section class="card">
+
+
+            <div class="title">
+
+                <h1>
+                    Crear rutina
+                </h1>
+
+                <p>
+                    Crea una nueva rutina de entrenamiento
+                    para este cliente.
+                </p>
+
+            </div>
+
+
+            <div class="client-box">
+
+                <strong>
+                    Cliente
+                </strong>
+
+                {{ cliente.nombre }}
+
+            </div>
+
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+
+                <div class="form-group">
+
+                    <label for="nombre">
+                        Nombre de la rutina
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nombre"
+                        name="nombre"
+                        placeholder="Ejemplo: Rutina de fuerza"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="descripcion">
+                        Descripción
+                    </label>
+
+                    <textarea
+                        id="descripcion"
+                        name="descripcion"
+                        placeholder="Describe el objetivo de esta rutina..."
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="fecha_inicio">
+                        Fecha de inicio
+                    </label>
+
+                    <input
+                        type="date"
+                        id="fecha_inicio"
+                        name="fecha_inicio"
+                    >
+
+                </div>
+
+
+                <div class="buttons">
+
+                    <a
+                        href="/clientes/{{ cliente.id }}/"
+                        class="button cancel"
+                    >
+                        Cancelar
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="button save"
+                    >
+                        Guardar rutina
+                    </button>
+
+                </div>
+
+
+            </form>
+
+
+        </section>
+
+
+    </main>
+
+
+</body>
+</html>

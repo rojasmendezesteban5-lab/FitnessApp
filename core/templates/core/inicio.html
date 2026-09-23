@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Inicio - Fitness</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        /* MENÚ */
+
+        .menu {
+            background: #111827;
+            color: white;
+            padding: 15px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .navegacion {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .navegacion a {
+            color: white;
+            text-decoration: none;
+            padding: 9px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .navegacion a:hover {
+            background: #374151;
+        }
+
+        /* CONTENIDO */
+
+        .contenedor {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 35px 0;
+        }
+
+        .bienvenida {
+            background: white;
+            border-radius: 18px;
+            padding: 35px;
+            margin-bottom: 25px;
+
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .bienvenida h1 {
+            margin-top: 0;
+            font-size: 32px;
+            color: #111827;
+        }
+
+        .bienvenida p {
+            color: #6b7280;
+            font-size: 17px;
+        }
+
+        /* TARJETAS */
+
+        .tarjetas {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .tarjeta {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+
+            text-decoration: none;
+            color: #222;
+
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+
+            transition: transform 0.2s;
+        }
+
+        .tarjeta:hover {
+            transform: translateY(-4px);
+        }
+
+        .icono {
+            font-size: 38px;
+            margin-bottom: 15px;
+        }
+
+        .tarjeta h2 {
+            margin: 0 0 10px;
+            color: #111827;
+        }
+
+        .tarjeta p {
+            color: #6b7280;
+            margin-bottom: 0;
+            line-height: 1.5;
+        }
+
+        /* PIE */
+
+        .pie {
+            text-align: center;
+            padding: 30px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* CELULAR */
+
+        @media (max-width: 768px) {
+
+            .menu {
+                justify-content: center;
+                text-align: center;
+            }
+
+            .navegacion {
+                justify-content: center;
+            }
+
+            .tarjetas {
+                grid-template-columns: 1fr;
+            }
+
+            .bienvenida {
+                padding: 25px;
+            }
+
+            .bienvenida h1 {
+                font-size: 27px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- MENÚ PRINCIPAL -->
+
+    <nav class="menu">
+
+        <div class="logo">
+            🏋️ FITNESS
+        </div>
+
+        <div class="navegacion">
+
+            <a href="/">
+                🏠 Inicio
+            </a>
+
+            <a href="/perfil/">
+                👤 Mi perfil
+            </a>
+
+            <a href="/rutina/">
+                🏋️ Mi rutina
+            </a>
+
+            <a href="/ejercicios/">
+                💪 Ejercicios
+            </a>
+
+            <a href="/progreso/">
+                📈 Mi progreso
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- CONTENIDO -->
+
+    <main class="contenedor">
+
+        <section class="bienvenida">
+
+            <h1>
+                ¡Bienvenido a Fitness! 💪
+            </h1>
+
+            <p>
+                Tu espacio para organizar tus entrenamientos,
+                consultar tus rutinas y llevar el control de tu progreso.
+            </p>
+
+        </section>
+
+
+        <!-- OPCIONES -->
+
+        <section class="tarjetas">
+
+            <a href="/rutina/" class="tarjeta">
+
+                <div class="icono">
+                    🏋️
+                </div>
+
+                <h2>
+                    Mi rutina
+                </h2>
+
+                <p>
+                    Consulta los ejercicios, series,
+                    repeticiones y pesos asignados.
+                </p>
+
+            </a>
+
+
+            <a href="/ejercicios/" class="tarjeta">
+
+                <div class="icono">
+                    💪
+                </div>
+
+                <h2>
+                    Ejercicios
+                </h2>
+
+                <p>
+                    Consulta los ejercicios disponibles
+                    y aprende cómo realizarlos correctamente.
+                </p>
+
+            </a>
+
+
+            <a href="/progreso/" class="tarjeta">
+
+                <div class="icono">
+                    📈
+                </div>
+
+                <h2>
+                    Mi progreso
+                </h2>
+
+                <p>
+                    Registra tu peso y observa
+                    tu evolución a través del tiempo.
+                </p>
+
+            </a>
+
+        </section>
+
+    </main>
+
+
+    <footer class="pie">
+
+        Fitness App © 2026
+
+    </footer>
+
+</body>
+</html>

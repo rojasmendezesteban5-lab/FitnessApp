@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ejercicios - Fitness</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        /* MENÚ */
+
+        .menu {
+            background: #111827;
+            color: white;
+            padding: 15px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .navegacion {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .navegacion a {
+            color: white;
+            text-decoration: none;
+            padding: 9px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .navegacion a:hover {
+            background: #374151;
+        }
+
+        /* CONTENEDOR */
+
+        .contenedor {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 35px 0;
+        }
+
+        /* ENCABEZADO */
+
+        .encabezado {
+            background: #111827;
+            color: white;
+            padding: 30px;
+            border-radius: 18px;
+            margin-bottom: 25px;
+        }
+
+        .encabezado h1 {
+            margin: 0 0 8px;
+            font-size: 30px;
+        }
+
+        .encabezado p {
+            margin: 0;
+            color: #d1d5db;
+        }
+
+        /* BUSCADOR */
+
+        .buscador {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .buscador input {
+            width: 100%;
+            padding: 13px 15px;
+
+            border: 1px solid #d1d5db;
+            border-radius: 9px;
+
+            font-size: 16px;
+            outline: none;
+        }
+
+        .buscador input:focus {
+            border-color: #111827;
+        }
+
+        /* EJERCICIOS */
+
+        .ejercicios {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 20px;
+        }
+
+        .ejercicio {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+
+            box-shadow:
+                0 4px 15px rgba(0, 0, 0, 0.08);
+
+            transition: transform 0.2s;
+        }
+
+        .ejercicio:hover {
+            transform: translateY(-4px);
+        }
+
+        .ejercicio h2 {
+            margin-top: 0;
+            margin-bottom: 8px;
+
+            font-size: 23px;
+            color: #111827;
+        }
+
+        .grupo {
+            display: inline-block;
+
+            padding: 6px 10px;
+
+            background: #f3f4f6;
+            color: #374151;
+
+            border-radius: 20px;
+
+            font-size: 13px;
+            font-weight: bold;
+
+            margin-bottom: 18px;
+        }
+
+        .descripcion {
+            color: #4b5563;
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        .instrucciones {
+            background: #f9fafb;
+
+            padding: 16px;
+
+            border-radius: 10px;
+
+            margin-bottom: 15px;
+        }
+
+        .instrucciones h3 {
+            margin-top: 0;
+            font-size: 16px;
+            color: #111827;
+        }
+
+        .instrucciones p {
+            margin-bottom: 0;
+            color: #4b5563;
+            line-height: 1.5;
+        }
+
+        .video {
+            display: inline-block;
+
+            padding: 10px 15px;
+
+            background: #111827;
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+        }
+
+        .video:hover {
+            background: #374151;
+        }
+
+        /* SIN EJERCICIOS */
+
+        .sin-ejercicios {
+            background: white;
+            border-radius: 16px;
+            padding: 50px;
+
+            text-align: center;
+
+            box-shadow:
+                0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .sin-ejercicios .icono {
+            font-size: 60px;
+        }
+
+        .sin-ejercicios h2 {
+            color: #111827;
+        }
+
+        .sin-ejercicios p {
+            color: #6b7280;
+        }
+
+        /* VOLVER */
+
+        .volver {
+            display: inline-block;
+
+            margin-top: 25px;
+
+            padding: 12px 18px;
+
+            background: #111827;
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+        }
+
+        .volver:hover {
+            background: #374151;
+        }
+
+        /* CELULAR */
+
+        @media (max-width: 768px) {
+
+            .menu {
+                justify-content: center;
+                text-align: center;
+            }
+
+            .navegacion {
+                justify-content: center;
+            }
+
+            .ejercicios {
+                grid-template-columns: 1fr;
+            }
+
+            .encabezado h1 {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- MENÚ -->
+
+    <nav class="menu">
+
+        <div class="logo">
+            🏋️ FITNESS
+        </div>
+
+        <div class="navegacion">
+
+            <a href="/">
+                🏠 Inicio
+            </a>
+
+            <a href="/perfil/">
+                👤 Mi perfil
+            </a>
+
+            <a href="/rutina/">
+                🏋️ Mi rutina
+            </a>
+
+            <a href="/ejercicios/">
+                💪 Ejercicios
+            </a>
+
+            <a href="/progreso/">
+                📈 Mi progreso
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- CONTENIDO -->
+
+    <main class="contenedor">
+
+        <section class="encabezado">
+
+            <h1>
+                💪 Ejercicios
+            </h1>
+
+            <p>
+                Consulta los ejercicios disponibles y sus instrucciones.
+            </p>
+
+        </section>
+
+
+        <!-- BUSCADOR -->
+
+        <section class="buscador">
+
+            <input
+                type="text"
+                id="buscadorEjercicios"
+                placeholder="🔎 Buscar ejercicio..."
+                onkeyup="buscarEjercicios()"
+            >
+
+        </section>
+
+
+        <!-- LISTA DE EJERCICIOS -->
+
+        {% if ejercicios %}
+
+            <section class="ejercicios" id="listaEjercicios">
+
+                {% for ejercicio in ejercicios %}
+
+                    <article
+                        class="ejercicio"
+                        data-nombre="{{ ejercicio.nombre|lower }}"
+                        data-grupo="{{ ejercicio.grupo_muscular|lower }}"
+                    >
+
+                        <h2>
+                            {{ ejercicio.nombre }}
+                        </h2>
+
+
+                        <span class="grupo">
+                            💪 {{ ejercicio.grupo_muscular }}
+                        </span>
+
+
+                        {% if ejercicio.descripcion %}
+
+                            <p class="descripcion">
+                                {{ ejercicio.descripcion }}
+                            </p>
+
+                        {% endif %}
+
+
+                        {% if ejercicio.instrucciones %}
+
+                            <div class="instrucciones">
+
+                                <h3>
+                                    📋 ¿Cómo realizarlo?
+                                </h3>
+
+                                <p>
+                                    {{ ejercicio.instrucciones }}
+                                </p>
+
+                            </div>
+
+                        {% endif %}
+
+
+                        {% if ejercicio.video %}
+
+                            <a
+                                href="{{ ejercicio.video }}"
+                                target="_blank"
+                                class="video"
+                            >
+                                ▶️ Ver video
+                            </a>
+
+                        {% endif %}
+
+                    </article>
+
+                {% endfor %}
+
+            </section>
+
+        {% else %}
+
+            <section class="sin-ejercicios">
+
+                <div class="icono">
+                    🏋️
+                </div>
+
+                <h2>
+                    No hay ejercicios registrados
+                </h2>
+
+                <p>
+                    Todavía no se han agregado ejercicios a la plataforma.
+                </p>
+
+            </section>
+
+        {% endif %}
+
+
+        <a href="/" class="volver">
+            ← Volver al inicio
+        </a>
+
+    </main>
+
+
+    <!-- BUSCADOR -->
+
+    <script>
+
+        function buscarEjercicios() {
+
+            const texto =
+                document
+                .getElementById("buscadorEjercicios")
+                .value
+                .toLowerCase();
+
+            const ejercicios =
+                document
+                .querySelectorAll(".ejercicio");
+
+
+            ejercicios.forEach(function(ejercicio) {
+
+                const nombre =
+                    ejercicio.dataset.nombre;
+
+                const grupo =
+                    ejercicio.dataset.grupo;
+
+
+                if (
+                    nombre.includes(texto) ||
+                    grupo.includes(texto)
+                ) {
+
+                    ejercicio.style.display = "";
+
+                } else {
+
+                    ejercicio.style.display = "none";
+
+                }
+
+            });
+
+        }
+
+    </script>
+
+</body>
+</html>

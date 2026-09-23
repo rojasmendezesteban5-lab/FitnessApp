@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Agregar ejercicio | FitnessApp</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #1f2937;
+        }
+
+        .navbar {
+            background: #111827;
+            color: white;
+            padding: 18px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            background: #374151;
+            padding: 9px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            margin: 0 0 8px;
+            font-size: 30px;
+        }
+
+        .header p {
+            margin: 0;
+            color: #6b7280;
+        }
+
+        .card {
+            background: white;
+            border-radius: 14px;
+            padding: 28px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            font-size: 20px;
+        }
+
+        .rutina-info {
+            background: #f3f4f6;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 22px;
+        }
+
+        .rutina-info strong {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 15px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: #16a34a;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .exercise {
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .exercise-title {
+            font-weight: bold;
+            font-size: 17px;
+            margin-bottom: 8px;
+        }
+
+        .exercise-details {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .empty {
+            color: #6b7280;
+            text-align: center;
+            padding: 15px;
+        }
+
+        @media (max-width: 650px) {
+
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .container {
+                margin-top: 25px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                text-align: center;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+
+        <div class="logo">
+            FitnessApp
+        </div>
+
+        <a href="/clientes/{{ rutina.cliente.id }}/">
+            Volver al cliente
+        </a>
+
+    </div>
+
+
+    <div class="container">
+
+        <div class="header">
+
+            <h1>Agregar ejercicio</h1>
+
+            <p>
+                Añade un ejercicio a la rutina de entrenamiento.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="rutina-info">
+
+                <strong>
+                    🏋️ {{ rutina.nombre }}
+                </strong>
+
+                Cliente:
+                {{ rutina.cliente.nombre }}
+
+            </div>
+
+
+            <h2>Nuevo ejercicio</h2>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+
+                <div class="form-group">
+
+                    <label for="ejercicio">
+                        Ejercicio
+                    </label>
+
+                    <select
+                        name="ejercicio"
+                        id="ejercicio"
+                        required
+                    >
+
+                        <option value="">
+                            Seleccione un ejercicio
+                        </option>
+
+                        {% for ejercicio in ejercicios %}
+
+                            <option value="{{ ejercicio.id }}">
+
+                                {{ ejercicio.nombre }}
+
+                                {% if ejercicio.grupo_muscular %}
+                                    - {{ ejercicio.grupo_muscular }}
+                                {% endif %}
+
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <div class="grid">
+
+                    <div class="form-group">
+
+                        <label for="series">
+                            Series
+                        </label>
+
+                        <input
+                            type="number"
+                            name="series"
+                            id="series"
+                            value="3"
+                            min="1"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="repeticiones">
+                            Repeticiones
+                        </label>
+
+                        <input
+                            type="number"
+                            name="repeticiones"
+                            id="repeticiones"
+                            value="10"
+                            min="1"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="peso">
+                            Peso (kg)
+                        </label>
+
+                        <input
+                            type="number"
+                            name="peso"
+                            id="peso"
+                            step="0.01"
+                            min="0"
+                            placeholder="Ejemplo: 25"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="descanso">
+                            Descanso (segundos)
+                        </label>
+
+                        <input
+                            type="number"
+                            name="descanso"
+                            id="descanso"
+                            value="60"
+                            min="0"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="orden">
+                            Orden del ejercicio
+                        </label>
+
+                        <input
+                            type="number"
+                            name="orden"
+                            id="orden"
+                            value="1"
+                            min="1"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="buttons">
+
+                    <a
+                        href="/clientes/{{ rutina.cliente.id }}/"
+                        class="btn btn-secondary"
+                    >
+                        Cancelar
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        + Agregar ejercicio
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>
+                Ejercicios de esta rutina
+            </h2>
+
+
+            {% if ejercicios_rutina %}
+
+                {% for item in ejercicios_rutina %}
+
+                    <div class="exercise">
+
+                        <div class="exercise-title">
+
+                            {{ item.orden }}.
+                            {{ item.ejercicio.nombre }}
+
+                        </div>
+
+                        <div class="exercise-details">
+
+                            {{ item.series }} series ×
+                            {{ item.repeticiones }} repeticiones
+
+                            {% if item.peso %}
+                                · {{ item.peso }} kg
+                            {% endif %}
+
+                            · Descanso:
+                            {{ item.descanso }} segundos
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="empty">
+
+                    Esta rutina todavía no tiene ejercicios.
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</body>
+</html>
