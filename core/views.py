@@ -20,6 +20,10 @@ def inicio(request):
 @login_required
 def rutina(request):
 
+    # Si es administrador, regresar al dashboard
+    if request.user.is_staff:
+        return redirect("/dashboard/")
+
     cliente = request.user.cliente
     rutina = cliente.rutinas.filter(activa=True).first()
 
@@ -36,6 +40,10 @@ def rutina(request):
 
 @login_required
 def completar_ejercicio(request, ejercicio_rutina_id):
+
+    # Los administradores no utilizan esta sección
+    if request.user.is_staff:
+        return redirect("/dashboard/")
 
     cliente = request.user.cliente
 
@@ -57,6 +65,10 @@ def completar_ejercicio(request, ejercicio_rutina_id):
 
 @login_required
 def perfil(request):
+
+    # Si es administrador, regresar al dashboard
+    if request.user.is_staff:
+        return redirect("/dashboard/")
 
     cliente = request.user.cliente
 
@@ -89,6 +101,10 @@ def ejercicios(request):
 
 @login_required
 def progreso(request):
+
+    # Si es administrador, regresar al dashboard
+    if request.user.is_staff:
+        return redirect("/dashboard/")
 
     cliente = request.user.cliente
 
