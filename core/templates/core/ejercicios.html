@@ -1,12 +1,19 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Ejercicios - Fitness</title>
 
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -14,480 +21,642 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: #f4f6f8;
-            color: #222;
+            background: #f3f4f6;
+            color: #111827;
         }
 
-        /* MENÚ */
+        /* ==========================
+           NAVBAR
+        ========================== */
 
-        .menu {
+        .navbar {
             background: #111827;
             color: white;
-            padding: 15px 30px;
+            padding: 20px 35px;
 
             display: flex;
             justify-content: space-between;
             align-items: center;
 
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .navegacion {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .navegacion a {
-            color: white;
-            text-decoration: none;
-            padding: 9px 12px;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-
-        .navegacion a:hover {
-            background: #374151;
-        }
-
-        /* CONTENEDOR */
-
-        .contenedor {
-            width: 90%;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 35px 0;
-        }
-
-        /* ENCABEZADO */
-
-        .encabezado {
-            background: #111827;
-            color: white;
-            padding: 30px;
-            border-radius: 18px;
-            margin-bottom: 25px;
-        }
-
-        .encabezado h1 {
-            margin: 0 0 8px;
-            font-size: 30px;
-        }
-
-        .encabezado p {
-            margin: 0;
-            color: #d1d5db;
-        }
-
-        /* BUSCADOR */
-
-        .buscador {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-        }
-
-        .buscador input {
-            width: 100%;
-            padding: 13px 15px;
-
-            border: 1px solid #d1d5db;
-            border-radius: 9px;
-
-            font-size: 16px;
-            outline: none;
-        }
-
-        .buscador input:focus {
-            border-color: #111827;
-        }
-
-        /* EJERCICIOS */
-
-        .ejercicios {
-            display: grid;
-
-            grid-template-columns:
-                repeat(2, 1fr);
-
             gap: 20px;
         }
 
-        .ejercicio {
-            background: white;
-            border-radius: 16px;
-            padding: 25px;
-
-            box-shadow:
-                0 4px 15px rgba(0, 0, 0, 0.08);
-
-            transition: transform 0.2s;
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
         }
 
-        .ejercicio:hover {
-            transform: translateY(-4px);
+        .menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
         }
 
-        .ejercicio h2 {
-            margin-top: 0;
-            margin-bottom: 8px;
-
-            font-size: 23px;
-            color: #111827;
+        .menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
         }
 
-        .grupo {
-            display: inline-block;
+        .menu a:hover {
+            opacity: 0.8;
+        }
 
-            padding: 6px 10px;
 
-            background: #f3f4f6;
-            color: #374151;
+        /* ==========================
+           CONTENEDOR
+        ========================== */
+
+        .container {
+            max-width: 1200px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+
+        /* ==========================
+           CABECERA
+        ========================== */
+
+        .header-card {
+            background: #111827;
+            color: white;
+
+            padding: 35px;
 
             border-radius: 20px;
 
-            font-size: 13px;
-            font-weight: bold;
+            margin-bottom: 25px;
 
-            margin-bottom: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 25px;
         }
 
-        .descripcion {
-            color: #4b5563;
-            line-height: 1.6;
-            margin-bottom: 18px;
+        .header-text h1 {
+            margin: 0 0 10px 0;
+            font-size: 34px;
         }
 
-        .instrucciones {
-            background: #f9fafb;
+        .header-text p {
+            margin: 0;
+            font-size: 18px;
+            color: #d1d5db;
+        }
 
-            padding: 16px;
+
+        /* ==========================
+           BOTÁ“N AGREGAR
+        ========================== */
+
+        .btn-agregar {
+
+            display: inline-block;
+
+            background: #2563eb;
+            color: white;
+
+            text-decoration: none;
+
+            padding: 14px 22px;
 
             border-radius: 10px;
 
-            margin-bottom: 15px;
+            font-weight: bold;
+
+            white-space: nowrap;
+
         }
 
-        .instrucciones h3 {
+        .btn-agregar:hover {
+            background: #1d4ed8;
+        }
+
+
+        /* ==========================
+           BUSCADOR
+        ========================== */
+
+        .buscador {
+
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 15px;
+
+            margin-bottom: 25px;
+
+            box-shadow: 0 5px 18px rgba(0,0,0,0.06);
+
+        }
+
+        .buscador input {
+
+            width: 100%;
+
+            padding: 15px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 10px;
+
+            font-size: 17px;
+
+            outline: none;
+
+        }
+
+        .buscador input:focus {
+            border-color: #2563eb;
+        }
+
+
+        /* ==========================
+           LISTA
+        ========================== */
+
+        .lista {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(320px, 1fr));
+
+            gap: 25px;
+
+        }
+
+
+        /* ==========================
+           TARJETA EJERCICIO
+        ========================== */
+
+        .card {
+
+            background: white;
+
+            border-radius: 18px;
+
+            padding: 28px;
+
+            box-shadow:
+                0 5px 20px rgba(0,0,0,0.07);
+
+        }
+
+        .card h2 {
+
             margin-top: 0;
-            font-size: 16px;
-            color: #111827;
+
+            margin-bottom: 12px;
+
+            font-size: 25px;
+
+        }
+
+        .grupo {
+
+            display: inline-block;
+
+            background: #eef2ff;
+
+            color: #3730a3;
+
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            font-weight: bold;
+
+            font-size: 14px;
+
+            margin-bottom: 18px;
+
+        }
+
+        .descripcion {
+
+            color: #374151;
+
+            font-size: 17px;
+
+            line-height: 1.6;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        /* ==========================
+           INSTRUCCIONES
+        ========================== */
+
+        .instrucciones {
+
+            background: #f3f4f6;
+
+            padding: 18px;
+
+            border-radius: 12px;
+
+        }
+
+        .instrucciones strong {
+
+            display: block;
+
+            font-size: 17px;
+
+            margin-bottom: 10px;
+
         }
 
         .instrucciones p {
-            margin-bottom: 0;
-            color: #4b5563;
-            line-height: 1.5;
+
+            margin: 0;
+
+            line-height: 1.6;
+
+            color: #374151;
+
         }
 
+
+        /* ==========================
+           VIDEO
+        ========================== */
+
         .video {
-            display: inline-block;
 
-            padding: 10px 15px;
+            margin-top: 18px;
 
-            background: #111827;
-            color: white;
+        }
+
+        .video a {
+
+            color: #2563eb;
+
+            font-weight: bold;
 
             text-decoration: none;
 
-            border-radius: 8px;
-
-            font-weight: bold;
         }
 
-        .video:hover {
-            background: #374151;
-        }
 
-        /* SIN EJERCICIOS */
+        /* ==========================
+           SIN EJERCICIOS
+        ========================== */
 
-        .sin-ejercicios {
+        .vacio {
+
             background: white;
-            border-radius: 16px;
-            padding: 50px;
+
+            padding: 40px;
+
+            border-radius: 18px;
 
             text-align: center;
 
-            box-shadow:
-                0 4px 15px rgba(0, 0, 0, 0.08);
-        }
-
-        .sin-ejercicios .icono {
-            font-size: 60px;
-        }
-
-        .sin-ejercicios h2 {
-            color: #111827;
-        }
-
-        .sin-ejercicios p {
             color: #6b7280;
+
         }
 
-        /* VOLVER */
+
+        /* ==========================
+           VOLVER
+        ========================== */
 
         .volver {
+
             display: inline-block;
 
-            margin-top: 25px;
-
-            padding: 12px 18px;
+            margin-top: 30px;
 
             background: #111827;
+
             color: white;
+
+            padding: 13px 20px;
+
+            border-radius: 9px;
 
             text-decoration: none;
 
-            border-radius: 8px;
-
             font-weight: bold;
+
         }
 
-        .volver:hover {
-            background: #374151;
-        }
 
-        /* CELULAR */
+        /* ==========================
+           MÁ“VIL
+        ========================== */
 
-        @media (max-width: 768px) {
+        @media (max-width: 800px) {
+
+            .navbar {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+            }
 
             .menu {
-                justify-content: center;
+
+                flex-wrap: wrap;
+
+                gap: 15px;
+
+            }
+
+            .header-card {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+            }
+
+            .btn-agregar {
+
+                width: 100%;
+
                 text-align: center;
+
             }
 
-            .navegacion {
-                justify-content: center;
-            }
-
-            .ejercicios {
-                grid-template-columns: 1fr;
-            }
-
-            .encabezado h1 {
-                font-size: 26px;
-            }
         }
+
     </style>
+
 </head>
+
 
 <body>
 
-    <!-- MENÚ -->
 
-    <nav class="menu">
+<!-- ==========================
+     NAVBAR
+========================== -->
 
-        <div class="logo">
-            🏋️ FITNESS
-        </div>
+<nav class="navbar">
 
-        <div class="navegacion">
+    <div class="logo">
+        FITNESS
+    </div>
 
-            <a href="/">
-                🏠 Inicio
+    <div class="menu">
+
+        <a href="/">
+            cio
+        </a>
+
+        <a href="/perfil/">
+             Mi perfil
+        </a>
+
+        <a href="/rutina/">
+            Mi rutina
+        </a>
+
+        <a href="/ejercicios/">
+            rcicios
+        </a>
+
+        <a href="/progreso/">
+            progreso
+        </a>
+
+    </div>
+
+            <a href="/logout/">
+                🚪 Cerrar sesión
             </a>
-
-            <a href="/perfil/">
-                👤 Mi perfil
-            </a>
-
-            <a href="/rutina/">
-                🏋️ Mi rutina
-            </a>
-
-            <a href="/ejercicios/">
-                💪 Ejercicios
-            </a>
-
-            <a href="/progreso/">
-                📈 Mi progreso
-            </a>
-
-        </div>
-
-    </nav>
+        </nav>
 
 
-    <!-- CONTENIDO -->
+<!-- ==========================
+     CONTENIDO
+========================== -->
 
-    <main class="contenedor">
+<main class="container">
 
-        <section class="encabezado">
+
+    <!-- CABECERA -->
+
+    <div class="header-card">
+
+        <div class="header-text">
 
             <h1>
-                💪 Ejercicios
+                rcicios
             </h1>
 
             <p>
                 Consulta los ejercicios disponibles y sus instrucciones.
             </p>
 
-        </section>
+        </div>
 
 
-        <!-- BUSCADOR -->
+        <!-- ESTE BOTÁ“N SOLO LO VE EL ADMIN -->
 
-        <section class="buscador">
+        {% if es_admin %}
 
-            <input
-                type="text"
-                id="buscadorEjercicios"
-                placeholder="🔎 Buscar ejercicio..."
-                onkeyup="buscarEjercicios()"
+            <a
+                href="/admin/ejercicios/agregar/"
+                class="btn-agregar"
             >
-
-        </section>
-
-
-        <!-- LISTA DE EJERCICIOS -->
-
-        {% if ejercicios %}
-
-            <section class="ejercicios" id="listaEjercicios">
-
-                {% for ejercicio in ejercicios %}
-
-                    <article
-                        class="ejercicio"
-                        data-nombre="{{ ejercicio.nombre|lower }}"
-                        data-grupo="{{ ejercicio.grupo_muscular|lower }}"
-                    >
-
-                        <h2>
-                            {{ ejercicio.nombre }}
-                        </h2>
-
-
-                        <span class="grupo">
-                            💪 {{ ejercicio.grupo_muscular }}
-                        </span>
-
-
-                        {% if ejercicio.descripcion %}
-
-                            <p class="descripcion">
-                                {{ ejercicio.descripcion }}
-                            </p>
-
-                        {% endif %}
-
-
-                        {% if ejercicio.instrucciones %}
-
-                            <div class="instrucciones">
-
-                                <h3>
-                                    📋 ¿Cómo realizarlo?
-                                </h3>
-
-                                <p>
-                                    {{ ejercicio.instrucciones }}
-                                </p>
-
-                            </div>
-
-                        {% endif %}
-
-
-                        {% if ejercicio.video %}
-
-                            <a
-                                href="{{ ejercicio.video }}"
-                                target="_blank"
-                                class="video"
-                            >
-                                ▶️ Ver video
-                            </a>
-
-                        {% endif %}
-
-                    </article>
-
-                {% endfor %}
-
-            </section>
-
-        {% else %}
-
-            <section class="sin-ejercicios">
-
-                <div class="icono">
-                    🏋️
-                </div>
-
-                <h2>
-                    No hay ejercicios registrados
-                </h2>
-
-                <p>
-                    Todavía no se han agregado ejercicios a la plataforma.
-                </p>
-
-            </section>
+                + Agregar ejercicio
+            </a>
 
         {% endif %}
 
-
-        <a href="/" class="volver">
-            ← Volver al inicio
-        </a>
-
-    </main>
+    </div>
 
 
     <!-- BUSCADOR -->
 
-    <script>
+    <div class="buscador">
 
-        function buscarEjercicios() {
+        <input
+            type="text"
+            id="buscarEjercicio"
+            placeholder="car ejercicio..."
+            onkeyup="buscarEjercicio()"
+        >
 
-            const texto =
-                document
-                .getElementById("buscadorEjercicios")
-                .value
-                .toLowerCase();
-
-            const ejercicios =
-                document
-                .querySelectorAll(".ejercicio");
+    </div>
 
 
-            ejercicios.forEach(function(ejercicio) {
+    <!-- EJERCICIOS -->
 
-                const nombre =
-                    ejercicio.dataset.nombre;
+    {% if ejercicios %}
 
-                const grupo =
-                    ejercicio.dataset.grupo;
+        <div class="lista" id="listaEjercicios">
 
 
-                if (
-                    nombre.includes(texto) ||
-                    grupo.includes(texto)
-                ) {
+            {% for ejercicio in ejercicios %}
 
-                    ejercicio.style.display = "";
+                <div
+                    class="card ejercicio-card"
+                    data-nombre="{{ ejercicio.nombre|lower }}"
+                >
 
-                } else {
 
-                    ejercicio.style.display = "none";
+                    <h2>
+                        {{ ejercicio.nombre }}
+                    </h2>
 
-                }
 
-            });
+                    {% if ejercicio.grupo_muscular %}
+
+                        <span class="grupo">
+
+                            
+                            {{ ejercicio.grupo_muscular }}
+
+                        </span>
+
+                    {% endif %}
+
+
+                    {% if ejercicio.descripcion %}
+
+                        <div class="descripcion">
+
+                            {{ ejercicio.descripcion }}
+
+                        </div>
+
+                    {% endif %}
+
+
+                    {% if ejercicio.instrucciones %}
+
+                        <div class="instrucciones">
+
+                            <strong>
+                                mo realizarlo?
+                            </strong>
+
+                            <p>
+                                {{ ejercicio.instrucciones }}
+                            </p>
+
+                        </div>
+
+                    {% endif %}
+
+
+                    {% if ejercicio.video %}
+
+                        <div class="video">
+
+                            
+
+                            <a
+                                href="{{ ejercicio.video }}"
+                                target="_blank"
+                            >
+                                Ver video del ejercicio
+                            </a>
+
+                        </div>
+
+                    {% endif %}
+
+
+                </div>
+
+            {% endfor %}
+
+
+        </div>
+
+
+    {% else %}
+
+
+        <div class="vacio">
+
+            <h2>
+                No hay ejercicios todavía.
+            </h2>
+
+            {% if es_admin %}
+
+                <p>
+                    Utiliza el botón "Agregar ejercicio"
+                    para crear el primero.
+                </p>
+
+            {% else %}
+
+                <p>
+                    Todavía no hay ejercicios disponibles.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+    {% endif %}
+
+
+    <a
+        href="/"
+        class="volver"
+    >
+        â† Volver al inicio
+    </a>
+
+
+</main>
+
+
+<script>
+
+function buscarEjercicio() {
+
+    const texto =
+        document
+        .getElementById("buscarEjercicio")
+        .value
+        .toLowerCase();
+
+    const ejercicios =
+        document.querySelectorAll(".ejercicio-card");
+
+    ejercicios.forEach(function(ejercicio) {
+
+        const nombre =
+            ejercicio.dataset.nombre;
+
+        if (nombre.includes(texto)) {
+
+            ejercicio.style.display = "";
+
+        } else {
+
+            ejercicio.style.display = "none";
 
         }
 
-    </script>
+    });
+
+}
+
+</script>
+
 
 </body>
+
 </html>
+
+
+

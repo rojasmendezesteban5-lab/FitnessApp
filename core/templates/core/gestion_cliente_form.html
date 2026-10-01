@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ titulo }} - FITNESS</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #111827;
+        }
+
+        .contenedor {
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .tarjeta {
+            background: white;
+            border-radius: 18px;
+            padding: 35px;
+            box-shadow: 0 4px 15px rgba(0,0,0,.08);
+        }
+
+        .encabezado {
+            background: #111827;
+            color: white;
+            border-radius: 18px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .campo {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            font-size: 16px;
+        }
+
+        textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .botones {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        button,
+        .btn {
+            border: none;
+            border-radius: 10px;
+            padding: 12px 18px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+        }
+
+        .verde {
+            background: #16a34a;
+        }
+
+        .azul {
+            background: #2563eb;
+        }
+
+        .rojo {
+            background: #dc2626;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .seccion {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="contenedor">
+
+    <div class="encabezado">
+        <h1>👤 {{ titulo }}</h1>
+    </div>
+
+    <div class="tarjeta">
+
+        {% if error %}
+            <div class="error">
+                ⚠️ {{ error }}
+            </div>
+        {% endif %}
+
+        <form
+            method="post"
+            action="{% if cliente %}{% url 'editar_cliente' cliente.id %}{% else %}{% url 'nuevo_cliente' %}{% endif %}"
+        >
+
+            {% csrf_token %}
+
+            <div class="campo">
+                <label>👤 Nombre completo</label>
+                <input
+                    type="text"
+                    name="nombre"
+                    value="{{ cliente.nombre|default:'' }}"
+                    required
+                >
+            </div>
+
+            <div class="campo">
+                <label>📧 Correo electrónico</label>
+                <input
+                    type="email"
+                    name="correo"
+                    value="{{ cliente.correo|default:'' }}"
+                    required
+                >
+            </div>
+
+            <div class="campo">
+                <label>📞 Teléfono</label>
+                <input
+                    type="text"
+                    name="telefono"
+                    value="{{ cliente.telefono|default:'' }}"
+                >
+            </div>
+
+            <div class="campo">
+                <label>🎂 Edad</label>
+                <input
+                    type="number"
+                    name="edad"
+                    value="{{ cliente.edad|default:'' }}"
+                    min="1"
+                >
+            </div>
+
+            <div class="campo">
+                <label>⚖️ Peso (kg)</label>
+                <input
+                    type="number"
+                    name="peso"
+                    value="{{ cliente.peso|default:'' }}"
+                    step="0.01"
+                    min="0"
+                >
+            </div>
+
+            <div class="campo">
+                <label>📏 Altura (m)</label>
+                <input
+                    type="number"
+                    name="altura"
+                    value="{{ cliente.altura|default:'' }}"
+                    step="0.01"
+                    min="0"
+                >
+            </div>
+
+            <div class="campo">
+                <label>🎯 Objetivo</label>
+                <input
+                    type="text"
+                    name="objetivo"
+                    value="{{ cliente.objetivo|default:'' }}"
+                >
+            </div>
+
+            <div class="campo">
+                <label>📝 Notas</label>
+                <textarea name="notas">{{ cliente.notas|default:'' }}</textarea>
+            </div>
+
+
+            {% if not cliente %}
+
+                <div class="seccion">
+
+                    <h2>🔐 Acceso del cliente</h2>
+
+                    <p>
+                        Estos datos son opcionales. Si creas un usuario,
+                        el cliente podrá iniciar sesión en FITNESS.
+                    </p>
+
+                    <div class="campo">
+                        <label>👤 Nombre de usuario</label>
+                        <input
+                            type="text"
+                            name="username"
+                            placeholder="Ejemplo: juan123"
+                        >
+                    </div>
+
+                    <div class="campo">
+                        <label>🔑 Contraseña</label>
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="Contraseña del cliente"
+                        >
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+
+            <div class="botones">
+
+                <button type="submit" class="verde">
+                    💾 Guardar cliente
+                </button>
+
+                <a href="{% url 'clientes' %}" class="btn azul">
+                    ↩️ Volver a clientes
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

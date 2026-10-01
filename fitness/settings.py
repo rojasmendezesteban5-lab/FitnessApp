@@ -8,20 +8,31 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Seguridad
+# =========================================================
+# SEGURIDAD
+# =========================================================
+
 SECRET_KEY = os.environ.get(
     "SECRET_KEY",
     "clave-temporal-solo-para-desarrollo"
 )
 
-DEBUG = os.environ.get("DEBUG", "False") == "True"
+DEBUG = True
 
 ALLOWED_HOSTS = [
-    os.environ.get("RENDER_EXTERNAL_HOSTNAME", "localhost"),
+    "127.0.0.1",
+    "localhost",
+    os.environ.get(
+        "RENDER_EXTERNAL_HOSTNAME",
+        "fitnessapp-ernl.onrender.com"
+    ),
 ]
 
 
-# Aplicaciones
+# =========================================================
+# APLICACIONES
+# =========================================================
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -33,7 +44,10 @@ INSTALLED_APPS = [
 ]
 
 
-# Middleware
+# =========================================================
+# MIDDLEWARE
+# =========================================================
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -48,7 +62,10 @@ MIDDLEWARE = [
 ROOT_URLCONF = "fitness.urls"
 
 
-# Plantillas
+# =========================================================
+# PLANTILLAS
+# =========================================================
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -68,7 +85,10 @@ TEMPLATES = [
 WSGI_APPLICATION = "fitness.wsgi.application"
 
 
-# Base de datos
+# =========================================================
+# BASE DE DATOS
+# =========================================================
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -77,7 +97,10 @@ DATABASES = {
 }
 
 
-# Validación de contraseñas
+# =========================================================
+# VALIDACIÓN DE CONTRASEÑAS
+# =========================================================
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -91,25 +114,37 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Idioma y zona horaria
-LANGUAGE_CODE = "en-us"
+# =========================================================
+# IDIOMA Y ZONA HORARIA
+# =========================================================
 
-TIME_ZONE = "UTC"
+LANGUAGE_CODE = "es"
+
+TIME_ZONE = "America/Costa_Rica"
 
 USE_I18N = True
 
 USE_TZ = True
 
 
-# Archivos estáticos
+# =========================================================
+# ARCHIVOS ESTÁTICOS
+# =========================================================
+
 STATIC_URL = "static/"
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
-# Correo
+# =========================================================
+# CORREO
+# =========================================================
+
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 
-# Página de inicio de sesión
+# =========================================================
+# LOGIN
+# =========================================================
+
 LOGIN_URL = "/login/"

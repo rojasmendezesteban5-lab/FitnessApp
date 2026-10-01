@@ -1,0 +1,224 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Administrar ejercicios - FitnessApp</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        header {
+            background: #111827;
+            color: white;
+            padding: 22px 40px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,.08);
+        }
+
+        .titulo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            margin: 0;
+            color: #111827;
+        }
+
+        .agregar {
+            background: #2563eb;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 9px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .agregar:hover {
+            background: #1d4ed8;
+        }
+
+        .ejercicio {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .ejercicio h2 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            color: #111827;
+        }
+
+        .grupo {
+            display: inline-block;
+            background: #e0e7ff;
+            color: #3730a3;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .descripcion {
+            color: #4b5563;
+            line-height: 1.5;
+        }
+
+        .vacio {
+            text-align: center;
+            padding: 40px;
+            color: #6b7280;
+        }
+
+        .volver {
+            display: inline-block;
+            margin-top: 25px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .volver:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 700px) {
+            .titulo {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+<header>
+    🏋️ FitnessApp
+</header>
+
+<main>
+
+    <div class="card">
+
+        <div class="titulo">
+
+            <h1>📋 Administrar ejercicios</h1>
+
+            <a
+                href="/admin/ejercicios/agregar/"
+                class="agregar"
+            >
+                ➕ Agregar ejercicio
+            </a>
+
+        </div>
+
+        {% if ejercicios %}
+
+            {% for ejercicio in ejercicios %}
+
+                <div class="ejercicio">
+
+                    <h2>
+                        {{ ejercicio.nombre }}
+                    </h2>
+
+                    {% if ejercicio.grupo_muscular %}
+
+                        <div class="grupo">
+                            {{ ejercicio.grupo_muscular }}
+                        </div>
+
+                    {% endif %}
+
+                    {% if ejercicio.descripcion %}
+
+                        <div class="descripcion">
+                            {{ ejercicio.descripcion }}
+                        </div>
+
+                    {% endif %}
+
+                    {% if ejercicio.instrucciones %}
+
+                        <p>
+                            <strong>Instrucciones:</strong>
+                            {{ ejercicio.instrucciones }}
+                        </p>
+
+                    {% endif %}
+
+                    {% if ejercicio.video %}
+
+                        <p>
+                            <strong>Video:</strong>
+                            {{ ejercicio.video }}
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="vacio">
+
+                <h2>No hay ejercicios todavía.</h2>
+
+                <p>
+                    Puedes agregar el primer ejercicio usando el botón de arriba.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+        <a
+            href="/"
+            class="volver"
+        >
+            ← Volver al inicio
+        </a>
+
+    </div>
+
+</main>
+
+</body>
+
+</html>

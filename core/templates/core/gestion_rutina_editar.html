@@ -1,0 +1,413 @@
+{% load fitness_filters %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Editar rutina - FITNESS</title>
+
+<style>
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    color: #111827;
+}
+
+.contenedor {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.encabezado {
+    background: #111827;
+    color: white;
+    padding: 30px;
+    border-radius: 18px;
+    margin-bottom: 20px;
+}
+
+.tarjeta {
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.08);
+}
+
+.campo {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    font-size: 16px;
+}
+
+textarea {
+    min-height: 100px;
+}
+
+.ejercicio {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
+.ejercicio h3 {
+    margin-top: 0;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.checkbox input {
+    width: auto;
+}
+
+.botones {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 25px;
+}
+
+button,
+.btn {
+    border: none;
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+}
+
+.verde {
+    background: #16a34a;
+}
+
+.azul {
+    background: #2563eb;
+}
+
+.error {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 700px) {
+
+    .grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="contenedor">
+
+
+<div class="encabezado">
+
+<h1>
+✏️ Editar rutina
+</h1>
+
+<p>
+Modifica los datos y ejercicios de esta rutina.
+</p>
+
+</div>
+
+
+<form method="post">
+
+{% csrf_token %}
+
+
+<div class="tarjeta">
+
+{% if error %}
+
+<div class="error">
+⚠️ {{ error }}
+</div>
+
+{% endif %}
+
+
+<div class="campo">
+
+<label>
+👤 Cliente
+</label>
+
+<select
+name="cliente"
+required
+>
+
+{% for cliente in clientes %}
+
+<option
+value="{{ cliente.id }}"
+{% if cliente.id == rutina.cliente_id %}
+selected
+{% endif %}
+>
+
+{{ cliente.nombre }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+</div>
+
+
+<div class="campo">
+
+<label>
+🏋️ Nombre de la rutina
+</label>
+
+<input
+type="text"
+name="nombre"
+value="{{ rutina.nombre }}"
+required
+>
+
+</div>
+
+
+<div class="campo">
+
+<label>
+📝 Descripción
+</label>
+
+<textarea
+name="descripcion"
+>{{ rutina.descripcion }}</textarea>
+
+</div>
+
+
+<div class="campo">
+
+<label>
+📅 Fecha de inicio
+</label>
+
+<input
+type="date"
+name="fecha_inicio"
+value="{{ rutina.fecha_inicio|date:'Y-m-d' }}"
+>
+
+</div>
+
+</div>
+
+
+<div class="tarjeta">
+
+<h2>
+💪 Ejercicios
+</h2>
+
+<p>
+Puedes agregar, quitar o modificar los ejercicios de esta rutina.
+</p>
+
+
+{% for ejercicio in ejercicios %}
+
+{% with actual=ejercicios_actuales|get_item:ejercicio.id %}
+
+<div class="ejercicio">
+
+<div class="checkbox">
+
+<input
+type="checkbox"
+name="ejercicio_id"
+value="{{ ejercicio.id }}"
+id="ejercicio_{{ ejercicio.id }}"
+{% if actual %}
+checked
+{% endif %}
+>
+
+<label
+for="ejercicio_{{ ejercicio.id }}"
+>
+
+💪 {{ ejercicio.nombre }}
+
+</label>
+
+</div>
+
+
+<div>
+<strong>
+Grupo muscular:
+</strong>
+
+{{ ejercicio.grupo_muscular }}
+
+</div>
+
+
+<div class="grid">
+
+<div>
+
+<label>
+Series
+</label>
+
+<input
+type="number"
+name="series_{{ ejercicio.id }}"
+value="{% if actual %}{{ actual.series }}{% else %}3{% endif %}"
+min="1"
+>
+
+</div>
+
+
+<div>
+
+<label>
+Repeticiones
+</label>
+
+<input
+type="number"
+name="repeticiones_{{ ejercicio.id }}"
+value="{% if actual %}{{ actual.repeticiones }}{% else %}10{% endif %}"
+min="1"
+>
+
+</div>
+
+
+<div>
+
+<label>
+Peso (kg)
+</label>
+
+<input
+type="number"
+name="peso_{{ ejercicio.id }}"
+step="0.01"
+min="0"
+value="{% if actual and actual.peso %}{{ actual.peso }}{% endif %}"
+>
+
+</div>
+
+
+<div>
+
+<label>
+Descanso (seg)
+</label>
+
+<input
+type="number"
+name="descanso_{{ ejercicio.id }}"
+value="{% if actual %}{{ actual.descanso }}{% else %}60{% endif %}"
+min="0"
+>
+
+</div>
+
+</div>
+
+</div>
+
+{% endwith %}
+
+{% empty %}
+
+<p>
+No hay ejercicios registrados.
+</p>
+
+{% endfor %}
+
+
+<div class="botones">
+
+<button
+type="submit"
+class="verde"
+>
+💾 Guardar cambios
+</button>
+
+<a
+href="{% url 'rutina_detalle' rutina.id %}"
+class="btn azul"
+>
+↩️ Cancelar
+</a>
+
+</div>
+
+</div>
+
+</form>
+
+</div>
+
+</body>
+
+</html>

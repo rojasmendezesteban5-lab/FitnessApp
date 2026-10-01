@@ -1,0 +1,416 @@
+
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>{{ titulo }} - FitnessApp</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background: #f1f3f6;
+
+            color: #172033;
+        }
+
+
+        .barra {
+
+            background: #111827;
+
+            color: white;
+
+            padding: 18px 28px;
+
+            font-weight: bold;
+        }
+
+
+        .logo {
+
+            color: #20c55a;
+
+            font-size: 20px;
+        }
+
+
+        .contenedor {
+
+            max-width: 800px;
+
+            margin: 35px auto;
+
+            padding: 0 20px;
+        }
+
+
+        .tarjeta {
+
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,.07);
+        }
+
+
+        h1 {
+
+            margin-top: 0;
+
+            margin-bottom: 25px;
+        }
+
+
+        .campo {
+
+            margin-bottom: 20px;
+        }
+
+
+        label {
+
+            display: block;
+
+            font-weight: bold;
+
+            margin-bottom: 7px;
+        }
+
+
+        input,
+        select,
+        textarea {
+
+            width: 100%;
+
+            padding: 11px;
+
+            border:
+                1px solid #ced4da;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+
+            background: white;
+        }
+
+
+        textarea {
+
+            resize: vertical;
+
+            min-height: 100px;
+        }
+
+
+        .botones {
+
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 25px;
+        }
+
+
+        button,
+        .boton {
+
+            border: none;
+
+            padding: 11px 18px;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            cursor: pointer;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+
+        .guardar {
+
+            background: #198754;
+
+            color: white;
+        }
+
+
+        .cancelar {
+
+            background: #6c757d;
+
+            color: white;
+        }
+
+
+        .ayuda {
+
+            color: #667085;
+
+            font-size: 13px;
+
+            margin-top: 5px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="barra">
+
+    <div class="logo">
+        FitnessApp
+    </div>
+
+</div>
+
+
+<div class="contenedor">
+
+
+    <div class="tarjeta">
+
+
+        <h1>
+            📊 {{ titulo }}
+        </h1>
+
+
+        <form method="post">
+
+            {% csrf_token %}
+
+
+            <!-- CLIENTE -->
+
+            <div class="campo">
+
+                <label>
+                    👤 Cliente
+                </label>
+
+                <select
+                    name="cliente"
+                    required
+                >
+
+                    <option value="">
+                        Seleccionar cliente
+                    </option>
+
+
+                    {% for cliente in clientes %}
+
+                        <option
+                            value="{{ cliente.id }}"
+
+                            {% if progreso and progreso.cliente_id == cliente.id %}
+                                selected
+                            {% endif %}
+                        >
+
+                            {{ cliente.nombre }}
+
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <!-- EJERCICIO -->
+
+            <div class="campo">
+
+                <label>
+                    🏋️ Ejercicio
+                </label>
+
+                <select
+                    name="ejercicio"
+                >
+
+                    <option value="">
+                        Sin ejercicio específico
+                    </option>
+
+
+                    {% for ejercicio in ejercicios %}
+
+                        <option
+                            value="{{ ejercicio.id }}"
+
+                            {% if progreso and progreso.ejercicio_id == ejercicio.id %}
+                                selected
+                            {% endif %}
+                        >
+
+                            {{ ejercicio.nombre }}
+
+                            {% if ejercicio.grupo_muscular %}
+                                — {{ ejercicio.grupo_muscular }}
+                            {% endif %}
+
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+
+                <div class="ayuda">
+
+                    Selecciona el ejercicio realizado
+                    para poder llevar su historial.
+
+                </div>
+
+            </div>
+
+
+            <!-- PESO CORPORAL -->
+
+            <div class="campo">
+
+                <label>
+                    ⚖️ Peso corporal (kg)
+                </label>
+
+                <input
+                    type="number"
+                    name="peso"
+                    step="0.01"
+                    min="0"
+
+                    value="{% if progreso and progreso.peso != None %}{{ progreso.peso }}{% endif %}"
+
+                    placeholder="Ejemplo: 79.50"
+                >
+
+            </div>
+
+
+            <!-- REPETICIONES -->
+
+            <div class="campo">
+
+                <label>
+                    🔢 Repeticiones
+                </label>
+
+                <input
+                    type="number"
+                    name="repeticiones"
+                    min="0"
+
+                    value="{% if progreso and progreso.repeticiones != None %}{{ progreso.repeticiones }}{% endif %}"
+
+                    placeholder="Ejemplo: 12"
+                >
+
+            </div>
+
+
+            <!-- PESO DEL EJERCICIO -->
+
+            <div class="campo">
+
+                <label>
+                    🏋️ Peso utilizado en el ejercicio (kg)
+                </label>
+
+                <input
+                    type="number"
+                    name="peso_ejercicio"
+                    step="0.01"
+                    min="0"
+
+                    value="{% if progreso and progreso.peso_ejercicio != None %}{{ progreso.peso_ejercicio }}{% endif %}"
+
+                    placeholder="Ejemplo: 30"
+                >
+
+            </div>
+
+
+            <!-- NOTAS -->
+
+            <div class="campo">
+
+                <label>
+                    📝 Notas
+                </label>
+
+                <textarea
+                    name="notas"
+                    placeholder="Observaciones del entrenamiento..."
+                >{% if progreso %}{{ progreso.notas }}{% endif %}</textarea>
+
+            </div>
+
+
+            <div class="botones">
+
+                <button
+                    type="submit"
+                    class="guardar"
+                >
+                    💾 Guardar progreso
+                </button>
+
+
+                <a
+                    href="{% url 'gestion_progreso' %}"
+                    class="boton cancelar"
+                >
+                    ← Cancelar
+                </a>
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

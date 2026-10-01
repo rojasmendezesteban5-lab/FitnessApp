@@ -1,14 +1,20 @@
+
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Mi progreso - Fitness</title>
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Mi progreso - FitnessApp</title>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -16,499 +22,801 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: #f4f6f8;
-            color: #222;
+            background: #f1f3f6;
+            color: #172033;
         }
 
-        .contenedor {
-            width: 90%;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 30px 0;
-        }
+        /* ==========================================
+           BARRA
+           ========================================== */
 
-        .encabezado {
+        .barra {
             background: #111827;
             color: white;
-            padding: 25px;
-            border-radius: 15px;
+
+            padding: 18px 28px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #20c55a;
+        }
+
+        .usuario {
+            font-size: 13px;
+        }
+
+
+        /* ==========================================
+           CONTENEDOR
+           ========================================== */
+
+        .contenedor {
+            max-width: 1100px;
+
+            margin: 30px auto;
+
+            padding: 0 20px;
+        }
+
+
+        /* ==========================================
+           CABECERA
+           ========================================== */
+
+        .cabecera {
             margin-bottom: 25px;
         }
 
-        .encabezado h1 {
-            margin: 0 0 8px;
-            font-size: 30px;
+        .cabecera h1 {
+            margin-bottom: 6px;
         }
 
-        .encabezado p {
-            margin: 0;
-            color: #d1d5db;
+        .cabecera p {
+            color: #667085;
+            margin-top: 0;
         }
 
-        /* TARJETAS */
 
-        .tarjetas {
+        /* ==========================================
+           RESUMEN
+           ========================================== */
+
+        .resumen {
+
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 15px;
+
             margin-bottom: 25px;
         }
 
         .tarjeta {
+
             background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+
+            padding: 22px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,.07);
         }
 
         .tarjeta .icono {
-            font-size: 30px;
-            margin-bottom: 10px;
-        }
-
-        .tarjeta h3 {
-            margin: 0 0 8px;
-            font-size: 16px;
-            color: #6b7280;
-        }
-
-        .tarjeta .numero {
             font-size: 28px;
-            font-weight: bold;
-            margin: 0;
         }
 
-        .tarjeta .detalle {
+        .tarjeta .titulo {
+
+            color: #667085;
+
+            font-size: 13px;
+
             margin-top: 8px;
-            color: #6b7280;
-            font-size: 14px;
         }
 
-        /* FORMULARIO */
+        .tarjeta .valor {
+
+            font-size: 26px;
+
+            font-weight: bold;
+
+            margin-top: 5px;
+        }
+
+
+        /* ==========================================
+           GRAFICA
+           ========================================== */
 
         .seccion {
+
             background: white;
-            border-radius: 15px;
+
             padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,.07);
+
             margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
         }
 
         .seccion h2 {
             margin-top: 0;
-            color: #111827;
         }
 
-        .formulario {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+        .grafica {
+
+            position: relative;
+
+            height: 350px;
+
+            width: 100%;
         }
+
+
+        /* ==========================================
+           TABLA
+           ========================================== */
+
+        .tabla-contenedor {
+            overflow-x: auto;
+        }
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+        }
+
+        th {
+
+            background: #212529;
+
+            color: white;
+
+            padding: 12px;
+
+            text-align: left;
+        }
+
+        td {
+
+            padding: 12px;
+
+            border-bottom:
+                1px solid #e5e7eb;
+        }
+
+
+        /* ==========================================
+           FORMULARIO
+           ========================================== */
 
         .campo {
-            display: flex;
-            flex-direction: column;
+
+            margin-bottom: 18px;
         }
 
         .campo label {
-            margin-bottom: 6px;
+
+            display: block;
+
             font-weight: bold;
+
+            margin-bottom: 6px;
         }
 
-        .campo input,
-        .campo textarea {
-            padding: 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
+        input,
+        textarea {
+
+            width: 100%;
+
+            padding: 11px;
+
+            border:
+                1px solid #ced4da;
+
+            border-radius: 7px;
+
             font-size: 15px;
         }
 
-        .campo textarea {
-            min-height: 100px;
+        textarea {
+
             resize: vertical;
         }
 
-        .campo-completo {
-            grid-column: 1 / -1;
-        }
-
         .boton {
-            grid-column: 1 / -1;
-            padding: 13px;
-            border: none;
-            border-radius: 8px;
-            background: #111827;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
 
-        .boton:hover {
-            background: #1f2937;
-        }
-
-        /* GRAFICA */
-
-        .contenedor-grafica {
-            position: relative;
-            height: 350px;
-        }
-
-        /* HISTORIAL */
-
-        .registro {
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            padding: 18px;
-            margin-bottom: 15px;
-        }
-
-        .registro:last-child {
-            margin-bottom: 0;
-        }
-
-        .registro p {
-            margin: 7px 0;
-        }
-
-        .volver {
             display: inline-block;
-            margin-top: 10px;
+
+            padding: 11px 18px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #198754;
+
+            color: white;
+
+            cursor: pointer;
+
             text-decoration: none;
-            color: #111827;
-            font-weight: bold;
         }
 
-        /* CELULAR */
 
-        @media (max-width: 768px) {
+        /* ==========================================
+           SIN DATOS
+           ========================================== */
 
-            .tarjetas {
-                grid-template-columns: 1fr;
+        .sin-datos {
+
+            text-align: center;
+
+            padding: 35px;
+
+            color: #667085;
+        }
+
+
+        /* ==========================================
+           RESPONSIVE
+           ========================================== */
+
+        @media (max-width: 800px) {
+
+            .resumen {
+
+                grid-template-columns:
+                    1fr;
             }
 
-            .formulario {
-                grid-template-columns: 1fr;
-            }
+            .grafica {
 
-            .campo-completo {
-                grid-column: auto;
-            }
-
-            .boton {
-                grid-column: auto;
-            }
-
-            .encabezado h1 {
-                font-size: 25px;
-            }
-
-            .contenedor-grafica {
                 height: 280px;
             }
+
         }
-    </style>
+
+    
+.btn-volver {
+    display: inline-block;
+    margin-bottom: 18px;
+    padding: 9px 16px;
+    background: #111827;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.btn-volver:hover {
+    opacity: 0.85;
+}
+
+</style>
+
 </head>
+
 
 <body>
 
+
+<!-- ==========================================
+     BARRA SUPERIOR
+     ========================================== -->
+
+<div class="barra">
+
+    <div class="logo">
+        FitnessApp
+    </div>
+
+    <div class="usuario">
+        Mi progreso
+    </div>
+
+</div>
+
+
 <div class="contenedor">
 
-    <!-- ENCABEZADO -->
 
-    <div class="encabezado">
-        <h1>📈 Mi progreso</h1>
-        <p>Consulta tu evolución y registra tus avances de entrenamiento.</p>
+    <!-- ==========================================
+         CABECERA
+         ========================================== -->
+
+    <div class="cabecera">
+
+        
+<a href="/" class="btn-volver">⬅️ Volver</a>
+
+<h1>
+            📊 Mi progreso
+        </h1>
+
+        <p>
+            Consulta tu evolución y registra tus avances.
+        </p>
+
     </div>
 
 
-    <!-- TARJETAS DE RESUMEN -->
+    <!-- ==========================================
+         RESUMEN
+         ========================================== -->
 
-    <div class="tarjetas">
-
-        <div class="tarjeta">
-            <div class="icono">⚖️</div>
-
-            <h3>Peso actual</h3>
-
-            <p class="numero">
-                {% if peso_actual != None %}
-                    {{ peso_actual }} kg
-                {% else %}
-                    —
-                {% endif %}
-            </p>
-
-            <p class="detalle">
-                Último registro
-            </p>
-        </div>
+    <div class="resumen">
 
 
         <div class="tarjeta">
-            <div class="icono">🎯</div>
 
-            <h3>Peso inicial</h3>
+            <div class="icono">
+                ⚖️
+            </div>
 
-            <p class="numero">
+            <div class="titulo">
+                Peso inicial
+            </div>
+
+            <div class="valor">
+
                 {% if peso_inicial != None %}
                     {{ peso_inicial }} kg
                 {% else %}
                     —
                 {% endif %}
-            </p>
 
-            <p class="detalle">
-                Primer registro
-            </p>
+            </div>
+
         </div>
 
 
         <div class="tarjeta">
-            <div class="icono">📊</div>
 
-            <h3>Cambio de peso</h3>
+            <div class="icono">
+                ⚖️
+            </div>
 
-            <p class="numero">
-                {% if cambio_peso != None %}
-                    {% if cambio_peso > 0 %}
-                        +{{ cambio_peso }} kg
-                    {% else %}
-                        {{ cambio_peso }} kg
-                    {% endif %}
+            <div class="titulo">
+                Peso actual
+            </div>
+
+            <div class="valor">
+
+                {% if peso_actual != None %}
+                    {{ peso_actual }} kg
                 {% else %}
                     —
                 {% endif %}
-            </p>
 
-            <p class="detalle">
-                Desde tu primer registro
-            </p>
+            </div>
+
         </div>
+
+
+        <div class="tarjeta">
+
+            <div class="icono">
+                📈
+            </div>
+
+            <div class="titulo">
+                Cambio de peso
+            </div>
+
+            <div class="valor">
+
+                {% if cambio_peso != None %}
+
+                    {% if cambio_peso > 0 %}
+                        +{{ cambio_peso }} kg
+                    {% elif cambio_peso < 0 %}
+                        {{ cambio_peso }} kg
+                    {% else %}
+                        0 kg
+                    {% endif %}
+
+                {% else %}
+
+                    —
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
 
     </div>
 
 
-    <!-- REGISTRAR PROGRESO -->
+    <!-- ==========================================
+         GRAFICA
+         ========================================== -->
 
-    <section class="seccion">
+    <div class="seccion">
 
-        <h2>📝 Registrar nuevo progreso</h2>
+        <h2>
+            📈 Evolución del peso
+        </h2>
 
-        <form method="POST" class="formulario">
+        {% if pesos %}
 
-            {% csrf_token %}
+            <div class="grafica">
 
-            <div class="campo">
-                <label for="peso">Peso corporal (kg)</label>
+                <canvas id="graficaPeso"></canvas>
 
-                <input
-                    type="number"
-                    id="peso"
-                    name="peso"
-                    step="0.01"
-                    placeholder="Ejemplo: 79.5"
-                >
             </div>
-
-
-            <div class="campo">
-                <label for="repeticiones">Repeticiones</label>
-
-                <input
-                    type="number"
-                    id="repeticiones"
-                    name="repeticiones"
-                    placeholder="Ejemplo: 12"
-                >
-            </div>
-
-
-            <div class="campo">
-                <label for="peso_ejercicio">Peso del ejercicio (kg)</label>
-
-                <input
-                    type="number"
-                    id="peso_ejercicio"
-                    name="peso_ejercicio"
-                    step="0.01"
-                    placeholder="Ejemplo: 30"
-                >
-            </div>
-
-
-            <div class="campo campo-completo">
-                <label for="notas">Notas</label>
-
-                <textarea
-                    id="notas"
-                    name="notas"
-                    placeholder="¿Cómo te sentiste durante el entrenamiento?"
-                ></textarea>
-            </div>
-
-
-            <button type="submit" class="boton">
-                💾 Guardar progreso
-            </button>
-
-        </form>
-
-    </section>
-
-
-    <!-- GRAFICA -->
-
-    <section class="seccion">
-
-        <h2>📊 Evolución de tu peso</h2>
-
-        <div class="contenedor-grafica">
-            <canvas id="graficaPeso"></canvas>
-        </div>
-
-    </section>
-
-
-    <!-- HISTORIAL -->
-
-    <section class="seccion">
-
-        <h2>📋 Historial de progreso</h2>
-
-        {% if progresos %}
-
-            {% for registro in progresos %}
-
-                <div class="registro">
-
-                    <p>
-                        📅 <strong>{{ registro.fecha|date:"d/m/Y" }}</strong>
-                    </p>
-
-                    {% if registro.peso != None %}
-                        <p>
-                            ⚖️ Peso corporal:
-                            <strong>{{ registro.peso }} kg</strong>
-                        </p>
-                    {% endif %}
-
-                    {% if registro.repeticiones != None %}
-                        <p>
-                            🔁 Repeticiones:
-                            <strong>{{ registro.repeticiones }}</strong>
-                        </p>
-                    {% endif %}
-
-                    {% if registro.peso_ejercicio != None %}
-                        <p>
-                            🏋️ Peso ejercicio:
-                            <strong>{{ registro.peso_ejercicio }} kg</strong>
-                        </p>
-                    {% endif %}
-
-                    {% if registro.notas %}
-                        <p>
-                            📝 Notas:
-                            {{ registro.notas }}
-                        </p>
-                    {% endif %}
-
-                </div>
-
-            {% endfor %}
 
         {% else %}
 
-            <p>
-                Todavía no tienes registros de progreso.
-            </p>
+            <div class="sin-datos">
+
+                <h3>
+                    📭 Todavía no hay datos de peso
+                </h3>
+
+                <p>
+                    Registra tu primer peso para comenzar a ver tu evolución.
+                </p>
+
+            </div>
 
         {% endif %}
 
-    </section>
+    </div>
 
 
-    <a href="/" class="volver">
-        ← Volver al inicio
-    </a>
+    <!-- ==========================================
+         HISTORIAL
+         ========================================== -->
+
+    <div class="seccion">
+
+        <h2>
+            📅 Historial de progreso
+        </h2>
+
+
+        {% if progresos %}
+
+            <div class="tabla-contenedor">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Fecha
+                            </th>
+
+                            <th>
+                                Peso
+                            </th>
+
+                            <th>
+                                Repeticiones
+                            </th>
+
+                            <th>
+                                Peso ejercicio
+                            </th>
+
+                            <th>
+                                Notas
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for registro in progresos %}
+
+                            <tr>
+
+                                <td>
+                                    {{ registro.fecha|date:"d/m/Y" }}
+                                </td>
+
+                                <td>
+
+                                    {% if registro.peso != None %}
+                                        {{ registro.peso }} kg
+                                    {% else %}
+                                        —
+                                    {% endif %}
+
+                                </td>
+
+                                <td>
+
+                                    {% if registro.repeticiones != None %}
+                                        {{ registro.repeticiones }}
+                                    {% else %}
+                                        —
+                                    {% endif %}
+
+                                </td>
+
+                                <td>
+
+                                    {% if registro.peso_ejercicio != None %}
+                                        {{ registro.peso_ejercicio }} kg
+                                    {% else %}
+                                        —
+                                    {% endif %}
+
+                                </td>
+
+                                <td>
+
+                                    {% if registro.notas %}
+                                        {{ registro.notas }}
+                                    {% else %}
+                                        —
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        {% else %}
+
+            <div class="sin-datos">
+
+                <p>
+                    Todavía no tienes registros de progreso.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- ==========================================
+         REGISTRAR PROGRESO
+         ========================================== -->
+
+    <div class="seccion">
+
+        <h2>
+            ➕ Registrar nuevo progreso
+        </h2>
+
+        <p>
+            Actualiza tus datos después de tu entrenamiento.
+        </p>
+
+
+        <form method="post">
+
+            {% csrf_token %}
+
+
+            <div class="campo">
+
+                <label>
+                    ⚖️ Peso corporal (kg)
+                </label>
+
+                <input
+                    type="number"
+                    name="peso"
+                    step="0.01"
+                    min="0"
+                    placeholder="Ejemplo: 78.50"
+                >
+
+            </div>
+
+
+            <div class="campo">
+
+                <label>
+                    🔢 Repeticiones
+                </label>
+
+                <input
+                    type="number"
+                    name="repeticiones"
+                    min="0"
+                    placeholder="Ejemplo: 12"
+                >
+
+            </div>
+
+
+            <div class="campo">
+
+                <label>
+                    🏋️ Peso utilizado en ejercicio (kg)
+                </label>
+
+                <input
+                    type="number"
+                    name="peso_ejercicio"
+                    step="0.01"
+                    min="0"
+                    placeholder="Ejemplo: 30"
+                >
+
+            </div>
+
+
+            <div class="campo">
+
+                <label>
+                    📝 Notas
+                </label>
+
+                <textarea
+                    name="notas"
+                    rows="4"
+                    placeholder="¿Cómo te sentiste durante el entrenamiento?"
+                ></textarea>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="boton"
+            >
+                💾 Guardar progreso
+            </button>
+
+
+        </form>
+
+    </div>
+
 
 </div>
 
 
-<!-- GRAFICA CON CHART.JS -->
+{% if pesos %}
+
+{{ fechas|json_script:"fechas-data" }}
+
+{{ pesos|json_script:"pesos-data" }}
+
 
 <script>
 
-    const fechas = {{ fechas|safe }};
-    const pesos = {{ pesos|safe }};
+    const fechas =
+        JSON.parse(
+            document.getElementById(
+                "fechas-data"
+            ).textContent
+        );
 
-    const contexto = document
-        .getElementById("graficaPeso")
-        .getContext("2d");
 
-    new Chart(contexto, {
+    const pesos =
+        JSON.parse(
+            document.getElementById(
+                "pesos-data"
+            ).textContent
+        );
 
-        type: "line",
 
-        data: {
+    const ctx =
+        document
+            .getElementById("graficaPeso")
+            .getContext("2d");
 
-            labels: fechas,
 
-            datasets: [
+    new Chart(
+        ctx,
+        {
+            type: "line",
 
-                {
-                    label: "Peso corporal (kg)",
+            data: {
 
-                    data: pesos,
+                labels: fechas,
 
-                    borderWidth: 3,
+                datasets: [
 
-                    tension: 0.3,
+                    {
+                        label:
+                            "Peso corporal (kg)",
 
-                    fill: false,
+                        data:
+                            pesos,
 
-                    pointRadius: 5
+                        tension:
+                            0.25,
+
+                        fill:
+                            false,
+
+                        pointRadius:
+                            5
+
+                    }
+
+                ]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: false,
+
+                        title: {
+
+                            display: true,
+
+                            text:
+                                "Kilogramos"
+
+                        }
+
+                    },
+
+                    x: {
+
+                        title: {
+
+                            display: true,
+
+                            text:
+                                "Fecha"
+
+                        }
+
+                    }
+
                 }
 
-            ]
-        },
-
-        options: {
-
-            responsive: true,
-
-            maintainAspectRatio: false,
-
-            scales: {
-
-                y: {
-
-                    beginAtZero: false,
-
-                    title: {
-
-                        display: true,
-
-                        text: "Peso (kg)"
-                    }
-                },
-
-                x: {
-
-                    title: {
-
-                        display: true,
-
-                        text: "Fecha"
-                    }
-                }
             }
+
         }
-    });
+    );
 
 </script>
 
+{% endif %}
+
+
 </body>
+
 </html>

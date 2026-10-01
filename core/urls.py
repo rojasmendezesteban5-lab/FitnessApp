@@ -1,18 +1,45 @@
-from django.urls import path
+from .gestion_clientes import lista_clientes, detalle_cliente, nuevo_cliente, editar_cliente, eliminar_cliente
+from django.urls import path, include, include
 from . import views
 
 urlpatterns = [
+    path("gestion/progreso/", include("core.gestion_progreso_urls")),
+    path(
+        "gestion/ejercicios/",
+        include("core.gestion_ejercicios_urls"),
+    ),
+    path("rutinas/", include("core.gestion_rutinas_urls")),
+    path("clientes/", lista_clientes, name="clientes"),
+    path(
+        "clientes/<int:cliente_id>/",
+        detalle_cliente,
+        name="cliente_detalle",
+    ),
+    path(
+        "gestion/",
+        include("core.gestion_urls"),
+    ),
+
     path("", views.inicio, name="inicio"),
-    path("dashboard/", views.dashboard, name="dashboard"),
-    path("clientes/", views.clientes, name="clientes"),
-    path("clientes/agregar/", views.agregar_cliente, name="agregar_cliente"),
-    path("clientes/<int:cliente_id>/", views.ver_cliente, name="ver_cliente"),
-    path("clientes/<int:cliente_id>/rutina/agregar/", views.agregar_rutina, name="agregar_rutina"),
-    path("rutinas/<int:rutina_id>/ejercicio/agregar/", views.agregar_ejercicio_rutina, name="agregar_ejercicio_rutina"),
+    path("login/", views.login, name="login"),
+    path("logout/", views.logout, name="logout"),
+    path("perfil/", views.perfil, name="perfil"),
     path("rutina/", views.rutina, name="rutina"),
     path("rutina/completar/<int:ejercicio_rutina_id>/", views.completar_ejercicio, name="completar_ejercicio"),
-    path("perfil/", views.perfil, name="perfil"),
     path("ejercicios/", views.ejercicios, name="ejercicios"),
     path("progreso/", views.progreso, name="progreso"),
-    path("login/", views.login, name="login"),
+
+    path(
+        "admin/ejercicios/",
+        views.lista_ejercicios_admin,
+        name="lista_ejercicios_admin",
+    ),
+
+    path(
+        "admin/ejercicios/agregar/",
+        views.agregar_ejercicio_admin,
+        name="agregar_ejercicio_admin",
+    ),
 ]
+
+

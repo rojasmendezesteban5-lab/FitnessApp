@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+{% if modo == "editar" %}
+Editar ejercicio
+{% else %}
+Nuevo ejercicio
+{% endif %}
+- FITNESS
+</title>
+
+<style>
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    color: #111827;
+}
+
+.contenedor {
+    max-width: 850px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.tarjeta {
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.08);
+}
+
+h1 {
+    margin-top: 0;
+}
+
+.campo {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+input,
+textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    font-size: 16px;
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+button,
+.btn {
+    border: 0;
+    border-radius: 10px;
+    padding: 13px 18px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+.guardar {
+    background: #16a34a;
+}
+
+.cancelar {
+    background: #475569;
+}
+
+.error {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.botones {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 25px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="contenedor">
+
+<div class="tarjeta">
+
+<h1>
+
+{% if modo == "editar" %}
+✏️ Editar ejercicio
+{% else %}
+➕ Nuevo ejercicio
+{% endif %}
+
+</h1>
+
+
+{% if error %}
+
+<div class="error">
+⚠️ {{ error }}
+</div>
+
+{% endif %}
+
+
+<form method="post">
+
+{% csrf_token %}
+
+
+<div class="campo">
+
+<label>
+💪 Nombre del ejercicio
+</label>
+
+<input
+type="text"
+name="nombre"
+required
+value="{% if ejercicio %}{{ ejercicio.nombre }}{% elif datos %}{{ datos.nombre }}{% endif %}"
+>
+
+</div>
+
+
+<div class="campo">
+
+<label>
+🎯 Grupo muscular
+</label>
+
+<input
+type="text"
+name="grupo_muscular"
+required
+placeholder="Ejemplo: Pecho, Espalda, Piernas..."
+value="{% if ejercicio %}{{ ejercicio.grupo_muscular }}{% elif datos %}{{ datos.grupo_muscular }}{% endif %}"
+>
+
+</div>
+
+
+<div class="campo">
+
+<label>
+📝 Descripción
+</label>
+
+<textarea
+name="descripcion"
+>{% if ejercicio %}{{ ejercicio.descripcion }}{% elif datos %}{{ datos.descripcion }}{% endif %}</textarea>
+
+</div>
+
+
+<div class="campo">
+
+<label>
+📋 Instrucciones
+</label>
+
+<textarea
+name="instrucciones"
+>{% if ejercicio %}{{ ejercicio.instrucciones }}{% elif datos %}{{ datos.instrucciones }}{% endif %}</textarea>
+
+</div>
+
+
+<div class="campo">
+
+<label>
+🖼️ URL de imagen
+</label>
+
+<input
+type="url"
+name="imagen"
+placeholder="https://..."
+value="{% if ejercicio %}{{ ejercicio.imagen }}{% elif datos %}{{ datos.imagen }}{% endif %}"
+>
+
+</div>
+
+
+<div class="campo">
+
+<label>
+🎥 URL de video
+</label>
+
+<input
+type="url"
+name="video"
+placeholder="https://..."
+value="{% if ejercicio %}{{ ejercicio.video }}{% elif datos %}{{ datos.video }}{% endif %}"
+>
+
+</div>
+
+
+<div class="botones">
+
+<button
+type="submit"
+class="guardar"
+>
+💾 Guardar ejercicio
+</button>
+
+
+<a
+href="{% url 'gestion_ejercicios' %}"
+class="btn cancelar"
+>
+↩️ Cancelar
+</a>
+
+</div>
+
+
+</form>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

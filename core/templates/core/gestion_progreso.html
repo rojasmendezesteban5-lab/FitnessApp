@@ -1,0 +1,555 @@
+
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Administración de Progreso - FitnessApp</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background: #f1f3f6;
+
+            color: #172033;
+        }
+
+
+        .barra {
+
+            background: #111827;
+
+            color: white;
+
+            padding: 18px 28px;
+
+            font-weight: bold;
+        }
+
+
+        .logo {
+
+            color: #20c55a;
+
+            font-size: 20px;
+        }
+
+
+        .contenedor {
+
+            max-width: 1100px;
+
+            margin: 35px auto;
+
+            padding: 0 20px;
+        }
+
+
+        .cabecera {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 25px;
+        }
+
+
+        h1 {
+            margin: 0;
+        }
+
+
+        .subtitulo {
+
+            color: #667085;
+
+            margin-top: 8px;
+        }
+
+
+        .boton {
+
+            display: inline-block;
+
+            padding: 10px 15px;
+
+            border-radius: 7px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            font-size: 13px;
+        }
+
+
+        .nuevo {
+
+            background: #198754;
+
+            color: white;
+        }
+
+
+        .filtro {
+
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,.07);
+
+            margin-bottom: 25px;
+        }
+
+
+        .filtro form {
+
+            display: flex;
+
+            gap: 10px;
+
+            align-items: center;
+
+            flex-wrap: wrap;
+        }
+
+
+        select {
+
+            padding: 10px;
+
+            border:
+                1px solid #ced4da;
+
+            border-radius: 7px;
+
+            min-width: 260px;
+
+            background: white;
+        }
+
+
+        .filtrar {
+
+            background: #111827;
+
+            color: white;
+
+            border: none;
+
+            padding: 10px 15px;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+        }
+
+
+        .tabla {
+
+            background: white;
+
+            border-radius: 12px;
+
+            overflow-x: auto;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,.07);
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 900px;
+        }
+
+
+        th {
+
+            background: #212529;
+
+            color: white;
+
+            padding: 13px;
+
+            text-align: left;
+
+            font-size: 13px;
+        }
+
+
+        td {
+
+            padding: 13px;
+
+            border-bottom:
+                1px solid #e5e7eb;
+
+            font-size: 13px;
+        }
+
+
+        tr:last-child td {
+
+            border-bottom: none;
+        }
+
+
+        .acciones {
+
+            display: flex;
+
+            gap: 6px;
+        }
+
+
+        .editar {
+
+            background: #0d6efd;
+
+            color: white;
+        }
+
+
+        .eliminar {
+
+            background: #dc3545;
+
+            color: white;
+        }
+
+
+        .volver {
+
+            margin-top: 20px;
+
+            background: #6c757d;
+
+            color: white;
+        }
+
+
+        .sin-datos {
+
+            text-align: center;
+
+            padding: 35px;
+
+            color: #667085;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="barra">
+
+    <div class="logo">
+        FitnessApp
+    </div>
+
+</div>
+
+
+<div class="contenedor">
+
+
+    <div class="cabecera">
+
+        <div>
+
+            <h1>
+                📊 Administración de Progreso
+            </h1>
+
+            <div class="subtitulo">
+                Registra y consulta el progreso de tus clientes.
+            </div>
+
+        </div>
+
+
+        <a
+            href="{% url 'nuevo_progreso' %}"
+            class="boton nuevo"
+        >
+            ➕ Nuevo registro
+        </a>
+
+    </div>
+
+
+    <!-- FILTRO -->
+
+    <div class="filtro">
+
+        <form method="get">
+
+            <strong>
+                👤 Filtrar por cliente
+            </strong>
+
+
+            <select name="cliente">
+
+                <option value="">
+                    Todos los clientes
+                </option>
+
+
+                {% for cliente in clientes %}
+
+                    <option
+                        value="{{ cliente.id }}"
+
+                        {% if cliente_seleccionado == cliente.id|stringformat:"s" %}
+                            selected
+                        {% endif %}
+                    >
+
+                        {{ cliente.nombre }}
+
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+
+            <button
+                type="submit"
+                class="filtrar"
+            >
+                🔎 Filtrar
+            </button>
+
+
+        </form>
+
+    </div>
+
+
+    <h2>
+        📈 Registros
+    </h2>
+
+
+    <div class="tabla">
+
+
+        {% if registros %}
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Fecha
+                        </th>
+
+                        <th>
+                            Cliente
+                        </th>
+
+                        <th>
+                            Ejercicio
+                        </th>
+
+                        <th>
+                            Peso
+                        </th>
+
+                        <th>
+                            Repeticiones
+                        </th>
+
+                        <th>
+                            Peso ejercicio
+                        </th>
+
+                        <th>
+                            Notas
+                        </th>
+
+                        <th>
+                            Acciones
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for registro in registros %}
+
+                        <tr>
+
+                            <td>
+                                {{ registro.fecha|date:"d/m/Y" }}
+                            </td>
+
+
+                            <td>
+                                {{ registro.cliente.nombre }}
+                            </td>
+
+
+                            <td>
+
+                                {% if registro.ejercicio %}
+
+                                    🏋️
+                                    {{ registro.ejercicio.nombre }}
+
+                                {% else %}
+
+                                    <span style="color:#667085;">
+                                        Sin ejercicio
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                {% if registro.peso != None %}
+                                    {{ registro.peso }} kg
+                                {% else %}
+                                    —
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                {% if registro.repeticiones != None %}
+                                    {{ registro.repeticiones }}
+                                {% else %}
+                                    —
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                {% if registro.peso_ejercicio != None %}
+                                    {{ registro.peso_ejercicio }} kg
+                                {% else %}
+                                    —
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+                                {{ registro.notas|default:"—" }}
+                            </td>
+
+
+                            <td>
+
+                                <div class="acciones">
+
+                                    <a
+                                        href="{% url 'editar_progreso' registro.id %}"
+                                        class="boton editar"
+                                    >
+                                        ✏️
+                                    </a>
+
+
+                                    <a
+                                        href="{% url 'eliminar_progreso' registro.id %}"
+                                        class="boton eliminar"
+                                    >
+                                        🗑️
+                                    </a>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+
+        {% else %}
+
+            <div class="sin-datos">
+
+                <h3>
+                    📭 No hay registros
+                </h3>
+
+                <p>
+                    Todavía no existen registros de progreso
+                    para este filtro.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+
+    </div>
+
+
+    <a
+        href="{% url 'dashboard' %}"
+        class="boton volver"
+    >
+        ← Volver al panel
+    </a>
+
+
+</div>
+
+
+</body>
+
+</html>

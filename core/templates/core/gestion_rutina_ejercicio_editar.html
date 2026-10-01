@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+Editar ejercicio - FITNESS
+</title>
+
+<style>
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+}
+
+.contenedor {
+    max-width: 750px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.tarjeta {
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.08);
+}
+
+.campo {
+    margin-bottom: 18px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+}
+
+button,
+a {
+    display: inline-block;
+    padding: 12px 18px;
+    border: 0;
+    border-radius: 10px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.guardar {
+    background: #16a34a;
+}
+
+.cancelar {
+    background: #475569;
+}
+
+.botones {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 25px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="contenedor">
+
+<div class="tarjeta">
+
+<h1>
+✏️ Editar ejercicio
+</h1>
+
+<h2>
+{{ item.ejercicio.nombre }}
+</h2>
+
+<p>
+🏋️ Rutina: <strong>{{ rutina.nombre }}</strong>
+</p>
+
+
+<form method="post">
+
+{% csrf_token %}
+
+
+<div class="campo">
+
+<label>
+Series
+</label>
+
+<input
+type="number"
+name="series"
+value="{{ item.series }}"
+min="1"
+required
+>
+
+</div>
+
+
+<div class="campo">
+
+<label>
+Repeticiones
+</label>
+
+<input
+type="number"
+name="repeticiones"
+value="{{ item.repeticiones }}"
+min="1"
+required
+>
+
+</div>
+
+
+<div class="campo">
+
+<label>
+Peso (kg)
+</label>
+
+<input
+type="number"
+name="peso"
+step="0.01"
+min="0"
+value="{% if item.peso %}{{ item.peso }}{% endif %}"
+>
+
+</div>
+
+
+<div class="campo">
+
+<label>
+Descanso (segundos)
+</label>
+
+<input
+type="number"
+name="descanso"
+value="{{ item.descanso }}"
+min="0"
+required
+>
+
+</div>
+
+
+<div class="campo">
+
+<label>
+Orden
+</label>
+
+<input
+type="number"
+name="orden"
+value="{{ item.orden }}"
+min="1"
+required
+>
+
+</div>
+
+
+<div class="botones">
+
+<button
+type="submit"
+class="guardar"
+>
+💾 Guardar cambios
+</button>
+
+<a
+href="{% url 'gestionar_ejercicios_rutina' rutina.id %}"
+class="cancelar"
+>
+↩️ Cancelar
+</a>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

@@ -1,72 +1,76 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login as auth_login
+﻿from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.models import User
+from django.contrib import messages
+from django.db import transaction
 
-from .models import Cliente, Rutina, Ejercicio, EjercicioRutina, Progreso
+from .models import (
+    Cliente,
+    Rutina,
+    Ejercicio,
+    EjercicioRutina,
+    Progreso,
+)
 
 
-# ==========================================
+# =========================================================
 # PÁGINA INICIAL
-# ==========================================
+# =========================================================
 
 def inicio(request):
     return render(request, "core/inicio.html")
 
 
-# ==========================================
-# CLIENTE - RUTINA
-# ==========================================
+# =========================================================
+# LOGIN
+# =========================================================
 
-@login_required
-def rutina(request):
+def login_view(request):
 
-    # Si es administrador, regresar al dashboard
-    if request.user.is_staff:
-        return redirect("/dashboard/")
+    if request.user.is_authenticated:
+        if request.user.is_staff:
+            return redirect("/dashboard/")
+        return redirect("/")
 
-    cliente = request.user.cliente
-    rutina = cliente.rutinas.filter(activa=True).first()
+    if request.method == "POST":
+
+        username = request.POST.get("username", "").strip()
+        password = request.POST.get("password", "")
+
+        usuario = authenticate(
+            request,
+            username=username,
+            password=password
+        )
+
+        if usuario is not None:
+
+            auth_login(request, usuario)
+
+            if usuario.is_staff:
+                return redirect("/dashboard/")
+
+            return redirect("/")
+
+        messages.error(
+            request,
+            "Usuario o contraseña incorrectos."
+        )
 
     return render(
         request,
-        "core/rutina.html",
-        {"rutina": rutina}
+        "core/login.html"
     )
 
 
-# ==========================================
-# CLIENTE - MARCAR EJERCICIO COMPLETADO
-# ==========================================
-
-@login_required
-def completar_ejercicio(request, ejercicio_rutina_id):
-
-    # Los administradores no utilizan esta sección
-    if request.user.is_staff:
-        return redirect("/dashboard/")
-
-    cliente = request.user.cliente
-
-    ejercicio_rutina = get_object_or_404(
-        EjercicioRutina,
-        id=ejercicio_rutina_id,
-        rutina__cliente=cliente
-    )
-
-    ejercicio_rutina.completado = True
-    ejercicio_rutina.save()
-
-    return redirect("/rutina/")
-
-
-# ==========================================
-# CLIENTE - PERFIL
-# ==========================================
+# =========================================================
+# PERFIL
+# =========================================================
 
 @login_required
 def perfil(request):
 
-    # Si es administrador, regresar al dashboard
     if request.user.is_staff:
         return redirect("/dashboard/")
 
@@ -75,34 +79,59 @@ def perfil(request):
     return render(
         request,
         "core/perfil.html",
-        {"cliente": cliente}
+        {
+            "cliente": cliente
+        }
     )
 
 
-# ==========================================
-# CLIENTE - EJERCICIOS
-# ==========================================
+# =========================================================
+# RUTINA DEL CLIENTE
+# =========================================================
+
+@login_required
+def rutina(request):
+
+    if request.user.is_staff:
+        return redirect("/dashboard/")
+
+    cliente = request.user.cliente
+
+    rutina = cliente.rutinas.filter(
+        activa=True
+    ).first()
+
+    ejercicios_rutina = []
+
+    if rutina:
+        ejercicios_rutina = rutina.ejercicios_rutina.select_related(
+            "ejercicio"
+        ).order_by("orden")
+
+    return render(
+        request,
+        "core/rutina.html",
+        {
+            "rutina": rutina,
+            "ejercicios_rutina": ejercicios_rutina,
+        }
+    )
+
+
+# =========================================================
+# EJERCICIOS PÚBLICOS
+# =========================================================
 
 @login_required
 def ejercicios(request):
 
-    ejercicios = Ejercicio.objects.all()
+    if request.user.is_staff:
+        return redirect("/dashboard/")
 
-    return render(
-        request,
-        "core/ejercicios.html",
-        {"ejercicios": ejercicios}
-    )
-
-
-# ==========================================
-# CLIENTE - PROGRESO
-# ==========================================
-
+    return redirect("/rutina/")
 @login_required
 def progreso(request):
 
-    # Si es administrador, regresar al dashboard
     if request.user.is_staff:
         return redirect("/dashboard/")
 
@@ -113,19 +142,30 @@ def progreso(request):
         peso = request.POST.get("peso")
         repeticiones = request.POST.get("repeticiones")
         peso_ejercicio = request.POST.get("peso_ejercicio")
+        ejercicio_id = request.POST.get("ejercicio")
         notas = request.POST.get("notas")
+
+        ejercicio = None
+
+        if ejercicio_id:
+            ejercicio = Ejercicio.objects.filter(
+                id=ejercicio_id
+            ).first()
 
         Progreso.objects.create(
             cliente=cliente,
+            ejercicio=ejercicio,
             peso=peso or None,
             repeticiones=repeticiones or None,
             peso_ejercicio=peso_ejercicio or None,
-            notas=notas
+            notas=notas or ""
         )
 
         return redirect("/progreso/")
 
-    progresos = cliente.progresos.all().order_by("fecha")
+    progresos = cliente.progresos.select_related(
+        "ejercicio"
+    ).all().order_by("fecha", "id")
 
     fechas = []
     pesos = []
@@ -138,7 +178,9 @@ def progreso(request):
                 registro.fecha.strftime("%d/%m/%Y")
             )
 
-            pesos.append(float(registro.peso))
+            pesos.append(
+                float(registro.peso)
+            )
 
     peso_actual = None
     peso_inicial = None
@@ -154,6 +196,24 @@ def progreso(request):
             2
         )
 
+    ejercicios_progreso = {}
+
+    for registro in progresos:
+
+        if registro.ejercicio:
+
+            nombre = registro.ejercicio.nombre
+
+            if nombre not in ejercicios_progreso:
+                ejercicios_progreso[nombre] = []
+
+            ejercicios_progreso[nombre].append({
+                "fecha": registro.fecha.strftime("%d/%m/%Y"),
+                "repeticiones": registro.repeticiones,
+                "peso_ejercicio": registro.peso_ejercicio,
+                "notas": registro.notas,
+            })
+
     return render(
         request,
         "core/progreso.html",
@@ -164,21 +224,19 @@ def progreso(request):
             "peso_actual": peso_actual,
             "peso_inicial": peso_inicial,
             "cambio_peso": cambio_peso,
+            "ejercicios_progreso": ejercicios_progreso,
         }
     )
 
 
-# ==========================================
-# COMPROBAR ADMINISTRADOR
-# ==========================================
+# =========================================================
+# ADMINISTRADOR
+# =========================================================
 
 def es_administrador(user):
+
     return user.is_staff
 
-
-# ==========================================
-# DASHBOARD
-# ==========================================
 
 @login_required
 @user_passes_test(es_administrador)
@@ -204,56 +262,248 @@ def dashboard(request):
     )
 
 
-# ==========================================
-# LISTA DE CLIENTES
-# ==========================================
+# =========================================================
+# ADMINISTRAR CLIENTES
+# =========================================================
 
 @login_required
 @user_passes_test(es_administrador)
-def clientes(request):
+def lista_clientes_admin(request):
 
     clientes = Cliente.objects.all().order_by("nombre")
 
     return render(
         request,
-        "core/clientes.html",
+        "core/administrar_clientes.html",
         {
             "clientes": clientes
         }
     )
 
 
-# ==========================================
+# =========================================================
 # AGREGAR CLIENTE
-# ==========================================
+# =========================================================
 
 @login_required
 @user_passes_test(es_administrador)
-def agregar_cliente(request):
+def agregar_cliente_admin(request):
 
     if request.method == "POST":
 
-        nombre = request.POST.get("nombre")
-        correo = request.POST.get("correo")
-        telefono = request.POST.get("telefono")
-        edad = request.POST.get("edad")
-        peso = request.POST.get("peso")
-        altura = request.POST.get("altura")
-        objetivo = request.POST.get("objetivo")
-        notas = request.POST.get("notas")
+        nombre = request.POST.get(
+            "nombre",
+            ""
+        ).strip()
 
-        Cliente.objects.create(
-            nombre=nombre,
-            correo=correo,
-            telefono=telefono,
-            edad=edad or None,
-            peso=peso or None,
-            altura=altura or None,
-            objetivo=objetivo,
-            notas=notas
+        correo = request.POST.get(
+            "correo",
+            ""
+        ).strip().lower()
+
+        telefono = request.POST.get(
+            "telefono",
+            ""
+        ).strip()
+
+        edad = request.POST.get(
+            "edad",
+            ""
+        ).strip()
+
+        peso = request.POST.get(
+            "peso",
+            ""
+        ).strip()
+
+        altura = request.POST.get(
+            "altura",
+            ""
+        ).strip()
+
+        objetivo = request.POST.get(
+            "objetivo",
+            ""
+        ).strip()
+
+        notas = request.POST.get(
+            "notas",
+            ""
+        ).strip()
+
+        username = request.POST.get(
+            "username",
+            ""
+        ).strip()
+
+        password = request.POST.get(
+            "password",
+            ""
         )
 
-        return redirect("/clientes/")
+        password2 = request.POST.get(
+            "password2",
+            ""
+        )
+
+
+        # ---------------------------------------------
+        # VALIDACIONES
+        # ---------------------------------------------
+
+        if not nombre:
+            messages.error(
+                request,
+                "Debes ingresar el nombre del cliente."
+            )
+
+            return redirect(
+                "/admin/clientes/agregar/"
+            )
+
+
+        if not correo:
+            messages.error(
+                request,
+                "Debes ingresar el correo electrónico."
+            )
+
+            return redirect(
+                "/admin/clientes/agregar/"
+            )
+
+
+        if not username:
+            messages.error(
+                request,
+                "Debes ingresar un nombre de usuario."
+            )
+
+            return redirect(
+                "/admin/clientes/agregar/"
+            )
+
+
+        if not password:
+            messages.error(
+                request,
+                "Debes ingresar una contraseña."
+            )
+
+            return redirect(
+                "/admin/clientes/agregar/"
+            )
+
+
+        if password != password2:
+
+            messages.error(
+                request,
+                "Las contraseñas no coinciden."
+            )
+
+            return redirect(
+                "/admin/clientes/agregar/"
+            )
+
+
+        if User.objects.filter(
+            username=username
+        ).exists():
+
+            messages.error(
+                request,
+                "Ese nombre de usuario ya existe."
+            )
+
+            return redirect(
+                "/admin/clientes/agregar/"
+            )
+
+
+        if User.objects.filter(
+            email=correo
+        ).exists():
+
+            messages.error(
+                request,
+                "Ya existe un usuario con ese correo."
+            )
+
+            return redirect(
+                "/admin/clientes/agregar/"
+            )
+
+
+        if Cliente.objects.filter(
+            correo=correo
+        ).exists():
+
+            messages.error(
+                request,
+                "Ya existe un cliente con ese correo."
+            )
+
+            return redirect(
+                "/admin/clientes/agregar/"
+            )
+
+
+        # ---------------------------------------------
+        # CREAR USUARIO + CLIENTE
+        # ---------------------------------------------
+
+        try:
+
+            with transaction.atomic():
+
+                usuario = User.objects.create_user(
+                    username=username,
+                    email=correo,
+                    password=password,
+                    first_name=nombre,
+                )
+
+                usuario.is_staff = False
+                usuario.is_superuser = False
+
+                usuario.save()
+
+
+                cliente = Cliente.objects.create(
+                    usuario=usuario,
+                    nombre=nombre,
+                    correo=correo,
+                    telefono=telefono,
+                    edad=edad or None,
+                    peso=peso or None,
+                    altura=altura or None,
+                    objetivo=objetivo,
+                    notas=notas,
+                )
+
+
+            messages.success(
+                request,
+                f"Cliente {cliente.nombre} creado correctamente. "
+                f"Usuario: {username}"
+            )
+
+            return redirect(
+                "/admin/clientes/"
+            )
+
+        except Exception as error:
+
+            messages.error(
+                request,
+                f"No se pudo crear el cliente: {error}"
+            )
+
+            return redirect(
+                "/admin/clientes/agregar/"
+            )
+
 
     return render(
         request,
@@ -261,133 +511,145 @@ def agregar_cliente(request):
     )
 
 
-# ==========================================
-# VER CLIENTE
-# ==========================================
+# =========================================================
+# ADMINISTRAR EJERCICIOS
+# =========================================================
 
 @login_required
 @user_passes_test(es_administrador)
-def ver_cliente(request, cliente_id):
+def lista_ejercicios_admin(request):
 
-    cliente = get_object_or_404(
-        Cliente,
-        id=cliente_id
+    ejercicios = Ejercicio.objects.all().order_by(
+        "nombre"
     )
-
-    rutinas = cliente.rutinas.all()
-
-    progresos = cliente.progresos.all().order_by("-fecha")
 
     return render(
         request,
-        "core/ver_cliente.html",
+        "core/administrar_ejercicios.html",
         {
-            "cliente": cliente,
-            "rutinas": rutinas,
-            "progresos": progresos,
+            "ejercicios": ejercicios
         }
     )
 
 
-# ==========================================
-# CREAR RUTINA
-# ==========================================
+# =========================================================
+# AGREGAR EJERCICIO
+# =========================================================
 
 @login_required
 @user_passes_test(es_administrador)
-def agregar_rutina(request, cliente_id):
-
-    cliente = get_object_or_404(
-        Cliente,
-        id=cliente_id
-    )
+def agregar_ejercicio_admin(request):
 
     if request.method == "POST":
 
-        nombre = request.POST.get("nombre")
-        descripcion = request.POST.get("descripcion")
-        fecha_inicio = request.POST.get("fecha_inicio")
+        datos = {}
 
-        Rutina.objects.create(
-            nombre=nombre,
-            cliente=cliente,
-            descripcion=descripcion,
-            fecha_inicio=fecha_inicio or None,
-            activa=True
+        campos = [
+            "nombre",
+            "grupo_muscular",
+            "descripcion",
+            "instrucciones",
+            "video",
+        ]
+
+        campos_modelo = {
+            campo.name
+            for campo in Ejercicio._meta.fields
+        }
+
+        for campo in campos:
+
+            if campo in campos_modelo:
+
+                valor = request.POST.get(
+                    campo,
+                    ""
+                ).strip()
+
+                datos[campo] = valor
+
+        Ejercicio.objects.create(
+            **datos
+        )
+
+        messages.success(
+            request,
+            "Ejercicio creado correctamente."
         )
 
         return redirect(
-            f"/clientes/{cliente.id}/"
+            "/admin/ejercicios/"
         )
+
+
+    campos_modelo = []
+
+    campos_permitidos = [
+        "nombre",
+        "grupo_muscular",
+        "descripcion",
+        "instrucciones",
+        "video",
+    ]
+
+    nombres = {
+
+        "nombre":
+            "Nombre del ejercicio",
+
+        "grupo_muscular":
+            "Grupo muscular",
+
+        "descripcion":
+            "Descripción",
+
+        "instrucciones":
+            "Instrucciones",
+
+        "video":
+            "Video",
+    }
+
+
+    for campo in Ejercicio._meta.fields:
+
+        if campo.name in campos_permitidos:
+
+            campos_modelo.append(
+                {
+                    "nombre": campo.name,
+
+                    "label": nombres.get(
+                        campo.name,
+                        campo.name.replace(
+                            "_",
+                            " "
+                        ).title()
+                    ),
+                }
+            )
+
 
     return render(
         request,
-        "core/agregar_rutina.html",
+        "core/agregar_ejercicio.html",
         {
-            "cliente": cliente
+            "campos": campos_modelo
         }
     )
 
 
-# ==========================================
-# AGREGAR EJERCICIO A UNA RUTINA
-# ==========================================
+# =========================================================
+# COMPATIBILIDAD
+# =========================================================
 
-@login_required
-@user_passes_test(es_administrador)
-def agregar_ejercicio_rutina(request, rutina_id):
+agregar_ejercicio = agregar_ejercicio_admin
 
-    rutina = get_object_or_404(
-        Rutina,
-        id=rutina_id
-    )
+administrar_ejercicios = lista_ejercicios_admin
 
-    ejercicios = Ejercicio.objects.all().order_by("nombre")
+administrar_clientes = lista_clientes_admin
 
-    if request.method == "POST":
-
-        ejercicio_id = request.POST.get("ejercicio")
-        series = request.POST.get("series")
-        repeticiones = request.POST.get("repeticiones")
-        peso = request.POST.get("peso")
-        descanso = request.POST.get("descanso")
-        orden = request.POST.get("orden")
-
-        ejercicio = get_object_or_404(
-            Ejercicio,
-            id=ejercicio_id
-        )
-
-        EjercicioRutina.objects.create(
-            rutina=rutina,
-            ejercicio=ejercicio,
-            series=series or 3,
-            repeticiones=repeticiones or 10,
-            peso=peso or None,
-            descanso=descanso or 60,
-            orden=orden or 1
-        )
-
-        return redirect(
-            f"/rutinas/{rutina.id}/ejercicio/agregar/"
-        )
-
-    ejercicios_rutina = rutina.ejercicios_rutina.all().order_by("orden")
-
-    return render(
-        request,
-        "core/agregar_ejercicio_rutina.html",
-        {
-            "rutina": rutina,
-            "ejercicios": ejercicios,
-            "ejercicios_rutina": ejercicios_rutina,
-        }
-    )
-
-
-# ==========================================
-# LOGIN
-# ==========================================
+agregar_cliente = agregar_cliente_admin
 
 def login(request):
 
@@ -414,7 +676,7 @@ def login(request):
             if usuario_autenticado.is_staff:
                 return redirect("/dashboard/")
 
-            return redirect("/")
+            return redirect("/perfil/")
 
         mensaje = "Usuario o contraseña incorrectos."
 
@@ -425,3 +687,65 @@ def login(request):
             "mensaje": mensaje
         }
     )
+
+
+
+
+# =========================================================
+# CERRAR SESIÓN
+# =========================================================
+
+def logout(request):
+    auth_logout(request)
+    return redirect("/login/")
+
+
+
+# ==========================================
+# CLIENTE - MARCAR EJERCICIO COMPLETADO
+# ==========================================
+
+@login_required
+def completar_ejercicio(request, ejercicio_rutina_id):
+
+    if request.user.is_staff:
+        return redirect("/dashboard/")
+
+    cliente = request.user.cliente
+
+    ejercicio_rutina = get_object_or_404(
+        EjercicioRutina,
+        id=ejercicio_rutina_id,
+        rutina__cliente=cliente
+    )
+
+    ejercicio_rutina.completado = True
+    ejercicio_rutina.save()
+
+    return redirect("/rutina/")
+
+# ==========================================
+# CLIENTE - MARCAR EJERCICIO COMPLETADO
+# ==========================================
+
+@login_required
+def completar_ejercicio(request, ejercicio_rutina_id):
+
+    if request.user.is_staff:
+        return redirect("/dashboard/")
+
+    cliente = request.user.cliente
+
+    ejercicio_rutina = get_object_or_404(
+        EjercicioRutina,
+        id=ejercicio_rutina_id,
+        rutina__cliente=cliente
+    )
+
+    ejercicio_rutina.completado = True
+    ejercicio_rutina.save()
+
+    return redirect("/rutina/")
+
+
+

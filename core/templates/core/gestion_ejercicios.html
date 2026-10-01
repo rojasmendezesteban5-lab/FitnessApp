@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Gestión de ejercicios - FITNESS</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    color: #111827;
+}
+
+.contenedor {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.encabezado {
+    background: #111827;
+    color: white;
+    padding: 30px;
+    border-radius: 18px;
+    margin-bottom: 25px;
+}
+
+.botones {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 18px;
+    border-radius: 10px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.verde {
+    background: #16a34a;
+}
+
+.azul {
+    background: #2563eb;
+}
+
+.rojo {
+    background: #dc2626;
+}
+
+.gris {
+    background: #475569;
+}
+
+.ejercicio {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    margin-bottom: 18px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.07);
+}
+
+.ejercicio h2 {
+    margin-top: 0;
+}
+
+.grupo {
+    display: inline-block;
+    background: #e0e7ff;
+    color: #3730a3;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.acciones {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.imagen {
+    max-width: 220px;
+    max-height: 160px;
+    border-radius: 12px;
+    margin-top: 15px;
+}
+
+.video {
+    display: inline-block;
+    margin-top: 15px;
+}
+
+.vacio {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="contenedor">
+
+
+<div class="encabezado">
+
+<h1>
+💪 Gestión de ejercicios
+</h1>
+
+<p>
+Administra la biblioteca de ejercicios de FITNESS.
+</p>
+
+
+<div class="botones">
+
+<a
+href="{% url 'nuevo_ejercicio' %}"
+class="btn verde"
+>
+➕ Nuevo ejercicio
+</a>
+
+
+<a
+href="{% url 'dashboard' %}"
+class="btn azul"
+>
+🏠 Dashboard
+</a>
+
+
+<a
+href="{% url 'clientes' %}"
+class="btn gris"
+>
+👥 Clientes
+</a>
+
+
+<a
+href="{% url 'gestion_rutinas' %}"
+class="btn gris"
+>
+🏋️ Rutinas
+</a>
+
+</div>
+
+</div>
+
+
+{% for ejercicio in ejercicios %}
+
+<div class="ejercicio">
+
+<h2>
+💪 {{ ejercicio.nombre }}
+</h2>
+
+
+<div class="grupo">
+{{ ejercicio.grupo_muscular }}
+</div>
+
+
+{% if ejercicio.descripcion %}
+
+<p>
+<strong>📝 Descripción:</strong><br>
+{{ ejercicio.descripcion }}
+</p>
+
+{% endif %}
+
+
+{% if ejercicio.instrucciones %}
+
+<p>
+<strong>📋 Instrucciones:</strong><br>
+{{ ejercicio.instrucciones }}
+</p>
+
+{% endif %}
+
+
+{% if ejercicio.imagen %}
+
+<div>
+
+<img
+src="{{ ejercicio.imagen }}"
+alt="{{ ejercicio.nombre }}"
+class="imagen"
+>
+
+</div>
+
+{% endif %}
+
+
+{% if ejercicio.video %}
+
+<a
+href="{{ ejercicio.video }}"
+target="_blank"
+class="video"
+>
+🎥 Ver video
+</a>
+
+{% endif %}
+
+
+<div class="acciones">
+
+<a
+href="{% url 'editar_ejercicio' ejercicio.id %}"
+class="btn azul"
+>
+✏️ Editar
+</a>
+
+
+<a
+href="{% url 'eliminar_ejercicio' ejercicio.id %}"
+class="btn rojo"
+>
+🗑️ Eliminar
+</a>
+
+</div>
+
+</div>
+
+{% empty %}
+
+<div class="vacio">
+
+<h2>
+No hay ejercicios registrados.
+</h2>
+
+<p>
+Puedes crear el primero con el botón
+<strong>➕ Nuevo ejercicio</strong>.
+</p>
+
+</div>
+
+{% endfor %}
+
+
+</div>
+
+</body>
+
+</html>

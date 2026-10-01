@@ -1,399 +1,389 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Mi rutina - FitnessApp</title>
+    <title>Mi rutina - FITNESS</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
 
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-            color: #222;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f1f3f6;
+            color: #111827;
         }
 
-        .navbar {
+        nav {
             background: #111827;
             color: white;
-            padding: 18px 30px;
+            height: 48px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
         }
 
-        .navbar h2 {
-            margin: 0;
-        }
-
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            background: #2563eb;
-            padding: 10px 18px;
-            border-radius: 8px;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        .titulo {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .titulo h1 {
-            font-size: 34px;
-            margin-bottom: 8px;
-        }
-
-        .rutina-info {
-            background: white;
-            padding: 25px;
-            border-radius: 14px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-
-        .rutina-info h2 {
-            margin-top: 0;
-            color: #2563eb;
-        }
-
-        .estado {
-            display: inline-block;
-            background: #dcfce7;
-            color: #166534;
-            padding: 7px 12px;
-            border-radius: 20px;
-            font-size: 14px;
+        .logo {
+            font-size: 18px;
             font-weight: bold;
         }
 
-        .ejercicio {
-            background: white;
-            padding: 25px;
+        .menu {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .menu a:hover {
+            opacity: 0.8;
+        }
+
+        .logout {
+            color: #f87171 !important;
+        }
+
+        .contenedor {
+            width: 710px;
+            max-width: calc(100% - 30px);
+            margin: 25px auto;
+        }
+
+        .encabezado {
+            background: #111827;
+            color: white;
             border-radius: 14px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            padding: 22px 25px;
+            margin-bottom: 18px;
         }
 
-        .ejercicio-completado {
-            border-left: 6px solid #16a34a;
+        .encabezado h1 {
+            margin: 0 0 6px 0;
+            font-size: 24px;
         }
 
-        .ejercicio-header {
+        .encabezado p {
+            margin: 0;
+            font-size: 13px;
+        }
+
+        .tarjeta {
+            background: white;
+            border-radius: 14px;
+            padding: 22px;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .rutina-nombre {
+            margin: 0;
+            font-size: 21px;
+        }
+
+        .descripcion {
+            color: #475569;
+            font-size: 13px;
+            margin: 8px 0 20px 0;
+        }
+
+        .ejercicio {
+            border: 1px solid #d9dee7;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .ejercicio.completado {
+            background: #f0fdf4;
+            border-color: #86efac;
+        }
+
+        .ejercicio-titulo {
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 15px;
         }
 
-        .ejercicio h3 {
+        .ejercicio-titulo h2 {
             margin: 0;
-            font-size: 24px;
+            font-size: 16px;
         }
 
-        .musculo {
-            color: #6b7280;
-            margin-top: 5px;
+        .estado {
+            font-size: 12px;
+            font-weight: bold;
+            color: #16a34a;
         }
 
         .datos {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-top: 20px;
+            gap: 8px;
+            margin-top: 14px;
         }
 
         .dato {
-            background: #f3f4f6;
-            padding: 15px;
-            border-radius: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 10px;
             text-align: center;
         }
 
-        .dato strong {
-            display: block;
-            font-size: 20px;
-            color: #111827;
+        .dato-titulo {
+            color: #64748b;
+            font-size: 11px;
+            margin-bottom: 4px;
         }
 
-        .dato span {
+        .dato-valor {
             font-size: 13px;
-            color: #6b7280;
-        }
-
-        .instrucciones {
-            margin-top: 20px;
-            background: #f9fafb;
-            padding: 15px;
-            border-radius: 10px;
-        }
-
-        .video {
-            display: inline-block;
-            margin-top: 15px;
-            color: #2563eb;
-            text-decoration: none;
             font-weight: bold;
         }
 
         .boton-completar {
             display: inline-block;
-            margin-top: 20px;
-            background: #16a34a;
+            margin-top: 14px;
+            background: #111827;
             color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
             text-decoration: none;
+            padding: 9px 13px;
+            border-radius: 6px;
+            font-size: 12px;
             font-weight: bold;
         }
 
         .boton-completar:hover {
-            background: #15803d;
+            background: #1f2937;
         }
 
-        .completado {
-            margin-top: 20px;
+        .boton-completado {
             display: inline-block;
-            background: #dcfce7;
-            color: #166534;
-            padding: 12px 20px;
-            border-radius: 8px;
+            margin-top: 14px;
+            background: #16a34a;
+            color: white;
+            padding: 9px 13px;
+            border-radius: 6px;
+            font-size: 12px;
             font-weight: bold;
         }
 
-        .vacio {
-            background: white;
-            padding: 40px;
+        .sin-rutina {
             text-align: center;
-            border-radius: 14px;
+            padding: 35px 20px;
+            color: #64748b;
+        }
+
+        .sin-rutina .icono {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .volver {
+            display: inline-block;
+            margin-top: 18px;
+            background: #111827;
+            color: white;
+            text-decoration: none;
+            padding: 9px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: bold;
         }
 
         @media (max-width: 700px) {
+            nav {
+                padding: 0 15px;
+            }
+
+            .menu {
+                gap: 10px;
+            }
+
+            .menu a {
+                font-size: 11px;
+            }
 
             .datos {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: 1fr 1fr;
             }
-
-            .ejercicio-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
         }
-
     </style>
 </head>
 
 <body>
 
-    <div class="navbar">
-
-        <h2>🏋️ FitnessApp</h2>
-
-        <a href="/">Inicio</a>
-
-    </div>
-
-
-    <div class="container">
-
-        <div class="titulo">
-
-            <h1>🏋️ Mi rutina</h1>
-
-            <p>Estos son los ejercicios asignados para tu entrenamiento.</p>
-
+    <nav>
+        <div class="logo">
+            &#127947; FITNESS
         </div>
 
+        <div class="menu">
+            <a href="/">&#127968; Inicio</a>
+            <a href="/perfil/">&#128100; Mi perfil</a>
+            <a href="/rutina/">&#127919; Mi rutina</a>
+            <a href="/ejercicios/">&#128170; Ejercicios</a>
+            <a href="/progreso/">&#128202; Mi progreso</a>
+            <a href="/logout/" class="logout">&#128682; Cerrar sesión</a>
+        </div>
+    </nav>
 
-        {% if rutina %}
+    <div class="contenedor">
 
-            <div class="rutina-info">
+        <div class="encabezado">
+            <h1>&#127919; Mi rutina</h1>
+            <p>Consulta tus ejercicios y completa tu entrenamiento.</p>
+        </div>
 
-                <h2>{{ rutina.nombre }}</h2>
+        <div class="tarjeta">
+
+            {% if rutina %}
+
+                <h2 class="rutina-nombre">
+                    {{ rutina.nombre }}
+                </h2>
 
                 {% if rutina.descripcion %}
-                    <p>{{ rutina.descripcion }}</p>
+                    <p class="descripcion">
+                        {{ rutina.descripcion }}
+                    </p>
                 {% endif %}
 
-                {% if rutina.activa %}
-                    <span class="estado">✓ Rutina activa</span>
-                {% else %}
-                    <span class="estado">Rutina inactiva</span>
-                {% endif %}
+                {% for ejercicio_rutina in rutina.ejercicios_rutina.all %}
 
-            </div>
+                    <div class="ejercicio {% if ejercicio_rutina.completado %}completado{% endif %}">
 
+                        <div class="ejercicio-titulo">
 
-            {% if rutina.ejercicios_rutina.all %}
+                            <h2>
+                                &#127947; {{ ejercicio_rutina.ejercicio.nombre }}
+                            </h2>
 
-                {% for item in rutina.ejercicios_rutina.all %}
-
-                    <div class="ejercicio {% if item.completado %}ejercicio-completado{% endif %}">
-
-                        <div class="ejercicio-header">
-
-                            <div>
-
-                                <h3>
-                                    {{ item.orden }}. {{ item.ejercicio.nombre }}
-                                </h3>
-
-                                <div class="musculo">
-                                    💪 {{ item.ejercicio.grupo_muscular }}
-                                </div>
-
-                            </div>
+                            {% if ejercicio_rutina.completado %}
+                                <span class="estado">
+                                    &#9989; Completado
+                                </span>
+                            {% endif %}
 
                         </div>
-
 
                         <div class="datos">
 
                             <div class="dato">
-
-                                <strong>
-                                    {{ item.series }}
-                                </strong>
-
-                                <span>
-                                    Series
-                                </span>
-
+                                <div class="dato-titulo">
+                                    &#128170; Series
+                                </div>
+                                <div class="dato-valor">
+                                    {{ ejercicio_rutina.series }}
+                                </div>
                             </div>
 
-
                             <div class="dato">
-
-                                <strong>
-                                    {{ item.repeticiones }}
-                                </strong>
-
-                                <span>
-                                    Repeticiones
-                                </span>
-
+                                <div class="dato-titulo">
+                                    &#128290; Repeticiones
+                                </div>
+                                <div class="dato-valor">
+                                    {{ ejercicio_rutina.repeticiones }}
+                                </div>
                             </div>
 
-
                             <div class="dato">
-
-                                <strong>
-                                    {% if item.peso %}
-                                        {{ item.peso }} kg
+                                <div class="dato-titulo">
+                                    &#9878;&#65039; Peso
+                                </div>
+                                <div class="dato-valor">
+                                    {% if ejercicio_rutina.peso %}
+                                        {{ ejercicio_rutina.peso }} kg
                                     {% else %}
-                                        -
+                                        Sin peso
                                     {% endif %}
-                                </strong>
-
-                                <span>
-                                    Peso
-                                </span>
-
+                                </div>
                             </div>
 
-
                             <div class="dato">
-
-                                <strong>
-                                    {{ item.descanso }} s
-                                </strong>
-
-                                <span>
-                                    Descanso
-                                </span>
-
+                                <div class="dato-titulo">
+                                    &#9201;&#65039; Descanso
+                                </div>
+                                <div class="dato-valor">
+                                    {{ ejercicio_rutina.descanso }} s
+                                </div>
                             </div>
 
                         </div>
 
-
-                        {% if item.ejercicio.instrucciones %}
-
-                            <div class="instrucciones">
-
-                                <strong>📋 Instrucciones:</strong>
-
-                                <p>
-                                    {{ item.ejercicio.instrucciones }}
-                                </p>
-
-                            </div>
-
-                        {% endif %}
-
-
-                        {% if item.ejercicio.video %}
+                        {% if not ejercicio_rutina.completado %}
 
                             <a
-                                href="{{ item.ejercicio.video }}"
-                                target="_blank"
-                                class="video"
+                                href="/rutina/completar/{{ ejercicio_rutina.id }}/"
+                                class="boton-completar"
                             >
-                                ▶ Ver video del ejercicio
+                                &#9989; Marcar como completado
                             </a>
-
-                        {% endif %}
-
-
-                        {% if item.completado %}
-
-                            <div class="completado">
-                                ✓ Ejercicio completado
-                            </div>
 
                         {% else %}
 
-                            <a
-                                href="/rutina/completar/{{ item.id }}/"
-                                class="boton-completar"
-                            >
-                                ✓ Marcar como completado
-                            </a>
+                            <div class="boton-completado">
+                                &#9989; Ejercicio completado
+                            </div>
 
                         {% endif %}
 
                     </div>
 
-                {% endfor %}
+                {% empty %}
 
+                    <div class="sin-rutina">
+                        <div class="icono">&#127919;</div>
+
+                        <strong>
+                            Esta rutina todavía no tiene ejercicios.
+                        </strong>
+
+                        <p>
+                            Tu entrenador podrá agregarlos desde el panel de administración.
+                        </p>
+                    </div>
+
+                {% endfor %}
 
             {% else %}
 
-                <div class="vacio">
+                <div class="sin-rutina">
 
-                    <h3>No tienes ejercicios asignados</h3>
+                    <div class="icono">
+                        &#128203;
+                    </div>
 
-                    <p>Tu entrenador todavía no ha agregado ejercicios a esta rutina.</p>
+                    <h2>
+                        No tienes una rutina activa
+                    </h2>
+
+                    <p>
+                        Cuando tu entrenador te asigne una rutina aparecerá aquí.
+                    </p>
 
                 </div>
 
             {% endif %}
 
+            <a href="/perfil/" class="volver">
+                &#8592; Volver a mi perfil
+            </a>
 
-        {% else %}
-
-            <div class="vacio">
-
-                <h2>📋 No tienes una rutina activa</h2>
-
-                <p>
-                    Actualmente no tienes una rutina de entrenamiento asignada.
-                </p>
-
-            </div>
-
-        {% endif %}
+        </div>
 
     </div>
 
 </body>
 </html>
+

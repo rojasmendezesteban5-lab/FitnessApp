@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Eliminar progreso - FitnessApp</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f3f6;
+        }
+
+        .barra {
+            background: #111827;
+            color: white;
+            padding: 18px 28px;
+        }
+
+        .barra strong {
+            color: #20c55a;
+            font-size: 20px;
+        }
+
+        .contenedor {
+            max-width: 600px;
+            margin: 60px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        button,
+        a {
+            display: inline-block;
+            padding: 11px 18px;
+            border-radius: 8px;
+            border: 0;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        button {
+            background: #dc3545;
+            color: white;
+        }
+
+        a {
+            background: #6c757d;
+            color: white;
+            margin-left: 8px;
+        }
+
+        .datos {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="barra">
+    <strong>FitnessApp</strong>
+</div>
+
+<div class="contenedor">
+
+    <h1>🗑️ Eliminar registro</h1>
+
+    <p>¿Seguro que deseas eliminar este registro de progreso?</p>
+
+    <div class="datos">
+
+        <p>
+            <strong>Cliente:</strong>
+            {{ progreso.cliente.nombre }}
+        </p>
+
+        <p>
+            <strong>Fecha:</strong>
+            {{ progreso.fecha|date:"d/m/Y" }}
+        </p>
+
+        {% if progreso.peso %}
+            <p>
+                <strong>Peso:</strong>
+                {{ progreso.peso }} kg
+            </p>
+        {% endif %}
+
+    </div>
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        <button type="submit">
+            🗑️ Sí, eliminar
+        </button>
+
+        <a href="{% url 'gestion_progreso' %}">
+            Cancelar
+        </a>
+
+    </form>
+
+</div>
+
+</body>
+</html>

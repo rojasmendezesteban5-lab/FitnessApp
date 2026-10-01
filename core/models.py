@@ -171,6 +171,14 @@ class Progreso(models.Model):
         related_name="progresos"
     )
 
+    ejercicio = models.ForeignKey(
+        Ejercicio,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="progresos"
+    )
+
     fecha = models.DateField(
         auto_now_add=True
     )

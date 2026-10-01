@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Rutinas - FITNESS</title>
+
+<style>
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    color: #111827;
+}
+
+.contenedor {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.encabezado {
+    background: #111827;
+    color: white;
+    padding: 35px;
+    border-radius: 18px;
+    margin-bottom: 25px;
+}
+
+.encabezado h1 {
+    margin: 0 0 10px;
+}
+
+.botones {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 18px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+}
+
+.azul {
+    background: #2563eb;
+}
+
+.verde {
+    background: #16a34a;
+}
+
+.rojo {
+    background: #dc2626;
+}
+
+.tarjeta {
+    background: white;
+    border-radius: 18px;
+    padding: 28px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.08);
+}
+
+.dato {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.ejercicio {
+    margin-top: 15px;
+    padding: 15px;
+    background: #f8fafc;
+    border-radius: 10px;
+}
+
+.estado {
+    font-weight: bold;
+}
+
+.activa {
+    color: #16a34a;
+}
+
+.inactiva {
+    color: #64748b;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="contenedor">
+
+<div class="encabezado">
+
+<h1>🏋️ Gestión de rutinas</h1>
+
+<p>
+Crea y administra las rutinas de entrenamiento de tus clientes.
+</p>
+
+<div class="botones">
+
+<a
+href="{% url 'nueva_rutina' %}"
+class="btn verde"
+>
+➕ Nueva rutina
+</a>
+
+<a
+href="{% url 'clientes' %}"
+class="btn azul"
+>
+👥 Clientes
+</a>
+
+<a
+href="{% url 'dashboard' %}"
+class="btn azul"
+>
+🏠 Dashboard
+</a>
+
+</div>
+
+</div>
+
+
+{% if rutinas %}
+
+{% for rutina in rutinas %}
+
+<div class="tarjeta">
+
+<h2>
+🏋️ {{ rutina.nombre }}
+</h2>
+
+<div class="dato">
+👤 Cliente:
+<strong>
+{{ rutina.cliente.nombre }}
+</strong>
+</div>
+
+{% if rutina.descripcion %}
+
+<div class="dato">
+📝 {{ rutina.descripcion }}
+</div>
+
+{% endif %}
+
+{% if rutina.fecha_inicio %}
+
+<div class="dato">
+📅 Inicio:
+{{ rutina.fecha_inicio }}
+</div>
+
+{% endif %}
+
+<div class="dato estado">
+
+{% if rutina.activa %}
+
+<span class="activa">
+🟢 Rutina activa
+</span>
+
+{% else %}
+
+<span class="inactiva">
+⚪ Rutina inactiva
+</span>
+
+{% endif %}
+
+</div>
+
+
+{% if rutina.ejercicios_rutina.all %}
+
+<div class="dato">
+💪 Ejercicios:
+{{ rutina.ejercicios_rutina.all|length }}
+</div>
+
+{% endif %}
+
+
+<div class="botones">
+
+<a
+href="{% url 'rutina_detalle' rutina.id %}"
+class="btn azul"
+>
+👁️ Ver rutina
+</a>
+
+<a
+href="{% url 'gestionar_ejercicios_rutina' rutina.id %}"
+class="btn verde"
+>
+💪 Administrar ejercicios
+</a>
+<a
+    href="{% url 'editar_rutina' rutina.id %}"
+    style="
+        display: inline-block;
+        background: #16a34a;
+        color: white;
+        text-decoration: none;
+        padding: 12px 18px;
+        border-radius: 10px;
+        font-weight: bold;
+        margin-right: 8px;
+    "
+>
+    ✏️ Editar
+</a>
+
+<a
+href="{% url 'eliminar_rutina' rutina.id %}"
+class="btn rojo"
+>
+🗑️ Eliminar
+</a>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+{% else %}
+
+<div class="tarjeta">
+
+<h2>
+🏋️ No hay rutinas todavía
+</h2>
+
+<p>
+Crea la primera rutina para uno de tus clientes.
+</p>
+
+<a
+href="{% url 'nueva_rutina' %}"
+class="btn verde"
+>
+➕ Crear rutina
+</a>
+
+</div>
+
+{% endif %}
+
+
+</div>
+
+</body>
+
+</html>

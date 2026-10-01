@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>{{ rutina.nombre }} - FITNESS</title>
+
+<style>
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    color: #111827;
+}
+
+.contenedor {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.encabezado {
+    background: #111827;
+    color: white;
+    padding: 35px;
+    border-radius: 18px;
+    margin-bottom: 20px;
+}
+
+.tarjeta {
+    background: white;
+    border-radius: 18px;
+    padding: 30px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.08);
+}
+
+.ejercicio {
+    border-bottom: 1px solid #e5e7eb;
+    padding: 20px 0;
+}
+
+.ejercicio:last-child {
+    border-bottom: none;
+}
+
+.dato {
+    margin: 8px 0;
+}
+
+.botones {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 25px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 18px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: white;
+}
+
+.azul {
+    background: #2563eb;
+}
+
+.rojo {
+    background: #dc2626;
+}
+
+.verde {
+    background: #16a34a;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="contenedor">
+
+
+<div class="encabezado">
+
+<h1>
+🏋️ {{ rutina.nombre }}
+</h1>
+
+<p>
+👤 Cliente:
+<strong>
+{{ rutina.cliente.nombre }}
+</strong>
+</p>
+
+{% if rutina.descripcion %}
+
+<p>
+📝 {{ rutina.descripcion }}
+</p>
+
+{% endif %}
+
+{% if rutina.fecha_inicio %}
+
+<p>
+📅 Fecha de inicio:
+{{ rutina.fecha_inicio }}
+</p>
+
+{% endif %}
+
+</div>
+
+
+<div class="tarjeta">
+
+<h2>
+💪 Ejercicios de la rutina
+</h2>
+
+
+{% for item in ejercicios_rutina %}
+
+<div class="ejercicio">
+
+<h3>
+{{ forloop.counter }}. {{ item.ejercicio.nombre }}
+</h3>
+
+<div class="dato">
+💪 Grupo muscular:
+{{ item.ejercicio.grupo_muscular }}
+</div>
+
+<div class="dato">
+🔢 Series:
+<strong>
+{{ item.series }}
+</strong>
+</div>
+
+<div class="dato">
+🔁 Repeticiones:
+<strong>
+{{ item.repeticiones }}
+</strong>
+</div>
+
+<div class="dato">
+⚖️ Peso:
+
+{% if item.peso %}
+{{ item.peso }} kg
+{% else %}
+Sin peso indicado
+{% endif %}
+
+</div>
+
+<div class="dato">
+⏱️ Descanso:
+{{ item.descanso }} segundos
+</div>
+
+</div>
+
+{% empty %}
+
+<p>
+Esta rutina todavía no tiene ejercicios.
+</p>
+
+{% endfor %}
+
+
+<div class="botones">
+
+<a
+href="{% url 'gestion_rutinas' %}"
+class="btn azul"
+>
+↩️ Volver a rutinas
+</a>
+
+<a
+href="{% url 'clientes' %}"
+class="btn verde"
+>
+👥 Clientes
+</a>
+
+<a
+href="{% url 'eliminar_rutina' rutina.id %}"
+class="btn rojo"
+>
+🗑️ Eliminar rutina
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

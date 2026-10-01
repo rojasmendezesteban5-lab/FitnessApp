@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Mi perfil - Fitness</title>
+    <title>Mi perfil - FITNESS</title>
 
     <style>
         * {
@@ -13,225 +13,174 @@
 
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-            color: #222;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f1f3f6;
+            color: #111827;
         }
 
-        /* MENÚ */
-
-        .menu {
+        nav {
             background: #111827;
             color: white;
-            padding: 15px 30px;
-
+            height: 48px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-
-            flex-wrap: wrap;
-            gap: 15px;
+            justify-content: space-between;
+            padding: 0 28px;
         }
 
         .logo {
-            font-size: 24px;
+            font-size: 18px;
             font-weight: bold;
         }
 
-        .navegacion {
+        .menu {
             display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
+            align-items: center;
+            gap: 28px;
         }
 
-        .navegacion a {
+        .menu a {
             color: white;
             text-decoration: none;
-            padding: 9px 12px;
-            border-radius: 8px;
-            font-size: 14px;
+            font-size: 13px;
+            font-weight: bold;
         }
 
-        .navegacion a:hover {
-            background: #374151;
+        .menu a:hover {
+            opacity: 0.8;
         }
 
-        /* CONTENEDOR */
+        .logout {
+            color: #f87171 !important;
+        }
 
         .contenedor {
-            width: 90%;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 35px 0;
+            width: 710px;
+            max-width: calc(100% - 30px);
+            margin: 25px auto;
         }
-
-        /* ENCABEZADO */
 
         .encabezado {
             background: #111827;
             color: white;
-            padding: 30px;
-            border-radius: 18px;
-            margin-bottom: 25px;
+            border-radius: 14px;
+            padding: 22px 25px;
+            margin-bottom: 18px;
         }
 
         .encabezado h1 {
-            margin: 0 0 8px;
-            font-size: 30px;
+            margin: 0 0 6px 0;
+            font-size: 24px;
         }
 
         .encabezado p {
             margin: 0;
-            color: #d1d5db;
+            font-size: 13px;
         }
 
-        /* PERFIL */
-
-        .perfil {
+        .tarjeta {
             background: white;
-            border-radius: 18px;
-            padding: 30px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border-radius: 14px;
+            padding: 22px;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
         }
 
         .avatar {
-            width: 90px;
-            height: 90px;
-
+            width: 64px;
+            height: 64px;
             border-radius: 50%;
-
             background: #111827;
-            color: white;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
-            font-size: 40px;
-
-            margin-bottom: 20px;
+            font-size: 30px;
+            margin-bottom: 15px;
         }
 
         .nombre {
-            font-size: 28px;
-            font-weight: bold;
-            margin: 0 0 5px;
+            margin: 0;
+            font-size: 21px;
         }
 
         .correo {
-            color: #6b7280;
-            margin-bottom: 30px;
+            margin: 8px 0 20px 0;
+            color: #475569;
+            font-size: 13px;
         }
 
-        /* INFORMACIÓN */
-
-        .informacion {
+        .datos {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 18px;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
         }
 
         .dato {
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 18px;
+            border: 1px solid #d9dee7;
+            border-radius: 10px;
+            padding: 13px;
+            min-height: 62px;
         }
 
         .dato .titulo {
-            color: #6b7280;
-            font-size: 14px;
-            margin-bottom: 7px;
+            color: #64748b;
+            font-size: 12px;
+            margin-bottom: 5px;
         }
 
         .dato .valor {
-            font-size: 18px;
+            font-size: 14px;
             font-weight: bold;
-            color: #111827;
         }
 
-        /* OBJETIVO */
-
-        .objetivo {
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 12px;
-            background: #f9fafb;
+        .seccion {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 14px;
         }
 
-        .objetivo h2 {
-            margin-top: 0;
-            font-size: 20px;
+        .seccion h2 {
+            margin: 0 0 10px 0;
+            font-size: 15px;
         }
 
-        .objetivo p {
-            color: #4b5563;
-            line-height: 1.6;
+        .seccion p {
+            margin: 0;
+            font-size: 13px;
+            color: #334155;
         }
 
-        /* NOTAS */
-
-        .notas {
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 12px;
-            background: #f9fafb;
-        }
-
-        .notas h2 {
-            margin-top: 0;
-            font-size: 20px;
-        }
-
-        .notas p {
-            color: #4b5563;
-            line-height: 1.6;
-        }
-
-        /* BOTÓN */
-
-        .volver {
+        .boton {
             display: inline-block;
-            margin-top: 25px;
-
-            padding: 12px 18px;
-
+            margin-top: 18px;
             background: #111827;
             color: white;
-
             text-decoration: none;
-
-            border-radius: 8px;
-
+            padding: 9px 14px;
+            border-radius: 6px;
+            font-size: 13px;
             font-weight: bold;
         }
 
-        .volver:hover {
-            background: #374151;
+        .boton:hover {
+            background: #1f2937;
         }
 
-        /* CELULAR */
-
-        @media (max-width: 768px) {
+        @media (max-width: 700px) {
+            nav {
+                padding: 0 15px;
+            }
 
             .menu {
-                justify-content: center;
-                text-align: center;
+                gap: 10px;
             }
 
-            .navegacion {
-                justify-content: center;
+            .menu a {
+                font-size: 11px;
             }
 
-            .informacion {
+            .datos {
                 grid-template-columns: 1fr;
-            }
-
-            .encabezado h1 {
-                font-size: 26px;
-            }
-
-            .nombre {
-                font-size: 24px;
             }
         }
     </style>
@@ -239,64 +188,33 @@
 
 <body>
 
-    <!-- MENÚ -->
-
-    <nav class="menu">
-
+    <nav>
         <div class="logo">
-            🏋️ FITNESS
+            &#127947; FITNESS
         </div>
 
-        <div class="navegacion">
-
-            <a href="/">
-                🏠 Inicio
-            </a>
-
-            <a href="/perfil/">
-                👤 Mi perfil
-            </a>
-
-            <a href="/rutina/">
-                🏋️ Mi rutina
-            </a>
-
-            <a href="/ejercicios/">
-                💪 Ejercicios
-            </a>
-
-            <a href="/progreso/">
-                📈 Mi progreso
-            </a>
-
+        <div class="menu">
+            <a href="/">&#127968; Inicio</a>
+            <a href="/perfil/">&#128100; Mi perfil</a>
+            <a href="/rutina/">&#127919; Mi rutina</a>
+            <a href="/ejercicios/">&#128170; Ejercicios</a>
+            <a href="/progreso/">&#128202; Mi progreso</a>
+            <a href="/logout/" class="logout">&#128682; Cerrar sesión</a>
         </div>
-
     </nav>
 
+    <div class="contenedor">
 
-    <!-- CONTENIDO -->
+        <div class="encabezado">
+            <h1>&#128100; Mi perfil</h1>
+            <p>Consulta tu información personal y tus objetivos.</p>
+        </div>
 
-    <main class="contenedor">
-
-        <section class="encabezado">
-
-            <h1>
-                👤 Mi perfil
-            </h1>
-
-            <p>
-                Consulta tu información personal y tus objetivos.
-            </p>
-
-        </section>
-
-
-        <section class="perfil">
+        <div class="tarjeta">
 
             <div class="avatar">
-                👤
+                &#128100;
             </div>
-
 
             <h2 class="nombre">
                 {{ cliente.nombre }}
@@ -306,138 +224,62 @@
                 {{ cliente.correo }}
             </p>
 
-
-            <!-- DATOS -->
-
-            <div class="informacion">
+            <div class="datos">
 
                 <div class="dato">
-
-                    <div class="titulo">
-                        📱 Teléfono
-                    </div>
-
+                    <div class="titulo">&#128222; Tel&#233;fono</div>
                     <div class="valor">
-
-                        {% if cliente.telefono %}
-                            {{ cliente.telefono }}
-                        {% else %}
-                            No registrado
-                        {% endif %}
-
+                        {{ cliente.telefono }}
                     </div>
-
                 </div>
 
-
                 <div class="dato">
-
-                    <div class="titulo">
-                        🎂 Edad
-                    </div>
-
+                    <div class="titulo">&#127874; Edad</div>
                     <div class="valor">
-
-                        {% if cliente.edad %}
-                            {{ cliente.edad }} años
-                        {% else %}
-                            No registrada
-                        {% endif %}
-
+                        {{ cliente.edad }} a&#241;os
                     </div>
-
                 </div>
 
-
                 <div class="dato">
-
-                    <div class="titulo">
-                        ⚖️ Peso
-                    </div>
-
+                    <div class="titulo">&#9878;&#65039; Peso</div>
                     <div class="valor">
-
-                        {% if cliente.peso %}
-                            {{ cliente.peso }} kg
-                        {% else %}
-                            No registrado
-                        {% endif %}
-
+                        {{ cliente.peso }} kg
                     </div>
-
                 </div>
 
-
                 <div class="dato">
-
-                    <div class="titulo">
-                        📏 Altura
-                    </div>
-
+                    <div class="titulo">&#128207; Altura</div>
                     <div class="valor">
-
-                        {% if cliente.altura %}
-                            {{ cliente.altura }} m
-                        {% else %}
-                            No registrada
-                        {% endif %}
-
+                        {{ cliente.altura }} m
                     </div>
-
                 </div>
 
             </div>
 
-
-            <!-- OBJETIVO -->
-
-            <div class="objetivo">
-
-                <h2>
-                    🎯 Mi objetivo
-                </h2>
+            <div class="seccion">
+                <h2>&#127919; Mi objetivo</h2>
 
                 <p>
-
-                    {% if cliente.objetivo %}
-                        {{ cliente.objetivo }}
-                    {% else %}
-                        No tienes un objetivo registrado todavía.
-                    {% endif %}
-
+                    {{ cliente.objetivo }}
                 </p>
-
             </div>
 
-
-            <!-- NOTAS -->
-
-            <div class="notas">
-
-                <h2>
-                    📝 Información adicional
-                </h2>
+            <div class="seccion">
+                <h2>&#128221; Informaci&#243;n adicional</h2>
 
                 <p>
-
-                    {% if cliente.notas %}
-                        {{ cliente.notas }}
-                    {% else %}
-                        No hay información adicional registrada.
-                    {% endif %}
-
+                    {{ cliente.notas }}
                 </p>
-
             </div>
 
-
-            <a href="/" class="volver">
-                ← Volver al inicio
+            <a href="/" class="boton">
+                &#8592; Volver al inicio
             </a>
 
-        </section>
+        </div>
 
-    </main>
+    </div>
 
 </body>
 </html>
+

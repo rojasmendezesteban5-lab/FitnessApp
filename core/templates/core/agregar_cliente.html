@@ -1,96 +1,92 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Agregar cliente | FitnessApp</title>
 
     <style>
+
         * {
             box-sizing: border-box;
-            margin: 0;
-            padding: 0;
         }
 
         body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f4f6f8;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
             color: #1f2937;
         }
 
-        .navbar {
+        header {
             background: #111827;
             color: white;
-            padding: 18px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
+            padding: 20px 40px;
             font-size: 24px;
             font-weight: bold;
         }
 
-        .logo span {
-            color: #22c55e;
-        }
-
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            background: #374151;
-            padding: 9px 16px;
-            border-radius: 7px;
-            font-size: 14px;
-        }
-
-        .container {
-            max-width: 800px;
+        main {
+            max-width: 900px;
             margin: 40px auto;
             padding: 0 20px;
         }
 
-        .header {
-            margin-bottom: 25px;
-        }
-
-        .header h1 {
-            font-size: 30px;
-            margin-bottom: 8px;
-        }
-
-        .header p {
-            color: #6b7280;
-        }
-
-        .form-box {
+        .card {
             background: white;
             padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,.08);
         }
 
-        .form-grid {
+        h1 {
+            margin-top: 0;
+            color: #111827;
+        }
+
+        .subtitulo {
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+
+        .seccion {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 20px;
+        }
+
+        .seccion h2 {
+            margin-top: 0;
+            color: #111827;
+            font-size: 20px;
+        }
+
+        .grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 18px;
         }
 
-        .form-group {
+        .campo {
             display: flex;
             flex-direction: column;
         }
 
-        .full {
+        .completo {
             grid-column: 1 / -1;
         }
 
         label {
             font-weight: bold;
             margin-bottom: 7px;
-            font-size: 14px;
         }
 
         input,
@@ -100,12 +96,12 @@
             border: 1px solid #d1d5db;
             border-radius: 8px;
             font-size: 15px;
-            outline: none;
         }
 
         input:focus,
         textarea:focus {
-            border-color: #22c55e;
+            outline: none;
+            border-color: #2563eb;
         }
 
         textarea {
@@ -113,14 +109,29 @@
             resize: vertical;
         }
 
-        .buttons {
+        .ayuda {
+            margin-top: 5px;
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .mensaje {
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background: #fee2e2;
+            color: #991b1b;
+            font-weight: bold;
+        }
+
+        .botones {
             display: flex;
             justify-content: flex-end;
             gap: 12px;
             margin-top: 25px;
         }
 
-        .button {
+        .boton {
             padding: 12px 20px;
             border-radius: 8px;
             text-decoration: none;
@@ -129,83 +140,110 @@
             font-size: 15px;
         }
 
-        .cancel {
+        .cancelar {
             background: #e5e7eb;
             color: #111827;
         }
 
-        .save {
-            background: #22c55e;
+        .guardar {
+            background: #2563eb;
             color: white;
             font-weight: bold;
         }
 
-        .save:hover {
-            background: #16a34a;
+        .guardar:hover {
+            background: #1d4ed8;
         }
 
-        @media (max-width: 650px) {
+        .volver {
+            display: inline-block;
+            margin-top: 25px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: bold;
+        }
 
-            .navbar {
-                padding: 15px 20px;
+        @media (max-width: 700px) {
+
+            header {
+                padding: 18px 20px;
             }
 
-            .container {
+            main {
                 margin: 25px auto;
             }
 
-            .form-box {
+            .card {
                 padding: 20px;
             }
 
-            .form-grid {
+            .grid {
                 grid-template-columns: 1fr;
             }
 
-            .full {
+            .completo {
                 grid-column: auto;
             }
+
+            .botones {
+                flex-direction: column;
+            }
+
+            .boton {
+                text-align: center;
+            }
         }
+
     </style>
+
 </head>
 
 <body>
 
-    <nav class="navbar">
-
-        <div class="logo">
-            Fitness<span>App</span>
-        </div>
-
-        <a href="/clientes/">
-            Volver a clientes
-        </a>
-
-    </nav>
+<header>
+    🏋️ FITNESS
+</header>
 
 
-    <main class="container">
+<main>
 
-        <div class="header">
+    <div class="card">
 
-            <h1>Agregar cliente</h1>
+        <h1>👤 Agregar cliente</h1>
 
-            <p>
-                Registra un nuevo cliente en FitnessApp.
-            </p>
-
-        </div>
+        <p class="subtitulo">
+            Crea el cliente y sus datos de acceso a FitnessApp.
+        </p>
 
 
-        <section class="form-box">
+        {% if messages %}
 
-            <form method="POST">
+            {% for message in messages %}
 
-                {% csrf_token %}
+                <div class="mensaje">
+                    {{ message }}
+                </div>
 
-                <div class="form-grid">
+            {% endfor %}
 
-                    <div class="form-group full">
+        {% endif %}
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <!-- DATOS DEL CLIENTE -->
+
+            <div class="seccion">
+
+                <h2>📋 Datos personales</h2>
+
+                <div class="grid">
+
+
+                    <div class="campo completo">
 
                         <label for="nombre">
                             Nombre completo
@@ -222,7 +260,7 @@
                     </div>
 
 
-                    <div class="form-group">
+                    <div class="campo">
 
                         <label for="correo">
                             Correo electrónico
@@ -239,7 +277,7 @@
                     </div>
 
 
-                    <div class="form-group">
+                    <div class="campo">
 
                         <label for="telefono">
                             Teléfono
@@ -255,7 +293,7 @@
                     </div>
 
 
-                    <div class="form-group">
+                    <div class="campo">
 
                         <label for="edad">
                             Edad
@@ -273,7 +311,7 @@
                     </div>
 
 
-                    <div class="form-group">
+                    <div class="campo">
 
                         <label for="peso">
                             Peso (kg)
@@ -291,7 +329,7 @@
                     </div>
 
 
-                    <div class="form-group">
+                    <div class="campo">
 
                         <label for="altura">
                             Altura (metros)
@@ -309,7 +347,7 @@
                     </div>
 
 
-                    <div class="form-group">
+                    <div class="campo completo">
 
                         <label for="objetivo">
                             Objetivo
@@ -325,7 +363,7 @@
                     </div>
 
 
-                    <div class="form-group full">
+                    <div class="campo completo">
 
                         <label for="notas">
                             Notas
@@ -341,30 +379,118 @@
 
                 </div>
 
+            </div>
 
-                <div class="buttons">
 
-                    <a
-                        href="/clientes/"
-                        class="button cancel"
-                    >
-                        Cancelar
-                    </a>
+            <!-- ACCESO DEL CLIENTE -->
 
-                    <button
-                        type="submit"
-                        class="button save"
-                    >
-                        Guardar cliente
-                    </button>
+            <div class="seccion">
+
+                <h2>🔐 Datos de acceso</h2>
+
+                <p class="ayuda">
+                    Estos datos serán utilizados por el cliente
+                    para iniciar sesión en FitnessApp.
+                </p>
+
+                <br>
+
+                <div class="grid">
+
+
+                    <div class="campo">
+
+                        <label for="username">
+                            Nombre de usuario
+                        </label>
+
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="Ejemplo: maria.rodriguez"
+                            required
+                        >
+
+                        <div class="ayuda">
+                            Debe ser único.
+                        </div>
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="password">
+                            Contraseña
+                        </label>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Contraseña"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="campo completo">
+
+                        <label for="password2">
+                            Confirmar contraseña
+                        </label>
+
+                        <input
+                            type="password"
+                            id="password2"
+                            name="password2"
+                            placeholder="Repetir contraseña"
+                            required
+                        >
+
+                    </div>
 
                 </div>
 
-            </form>
+            </div>
 
-        </section>
 
-    </main>
+            <div class="botones">
+
+                <a
+                    href="/admin/clientes/"
+                    class="boton cancelar"
+                >
+                    Cancelar
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="boton guardar"
+                >
+                    💾 Crear cliente
+                </button>
+
+            </div>
+
+
+        </form>
+
+
+        <a
+            href="/dashboard/"
+            class="volver"
+        >
+            ← Volver al dashboard
+        </a>
+
+    </div>
+
+</main>
 
 </body>
+
 </html>
